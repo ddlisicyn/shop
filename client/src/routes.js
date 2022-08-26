@@ -10,9 +10,9 @@ export const useRoutes = isAuthenticated => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
-				<Route path="redactor" exact element={ <RedactorPage /> }>
+				<Route path="/redactor" exact element={ <RedactorPage /> }>
 				</Route>
-				<Route path="*" element={<Navigate to="/admin" />}>
+				<Route path="*" element={ <Navigate to="/redactor" /> }>
 				</Route>
 			</Routes>
 		)
