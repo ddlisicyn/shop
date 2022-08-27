@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useRoutes } from './routes';
 import { useAuth } from './hooks/auth.hook';
 import { AuthContext } from './context/AuthContext';
+import { Navbar } from './components/Navbar';
 
 function App() {
   const { login, logout, token, userId } = useAuth();
@@ -14,6 +15,9 @@ function App() {
       login, logout, token, userId, isAuthenticated
     }}>
       <BrowserRouter>
+        {
+          !isAuthenticated ? <></> : <Navbar isAuthenticated={isAuthenticated} />
+        }
         <>
           { routes }
         </>
