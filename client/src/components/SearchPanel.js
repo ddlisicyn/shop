@@ -8,7 +8,7 @@ export const SearchPanel = () => {
 	return (
 		<Paper
 		  component="form"
-		  sx={{ p: 0, display: 'flex', alignItems: 'center', width: 200 }}
+		  sx={{ p: 0, display: 'flex', alignItems: 'center', minWidth: '160px', height: '35px', margin: 'auto 20px' }}
 		>
 			<InputBase
 				sx={{ ml: 1, flex: 1 }}

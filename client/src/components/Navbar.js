@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -15,11 +17,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import HouseIcon from '@mui/icons-material/House';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { SearchPanel } from './SearchPanel';
+import { AddForm } from './AddForm';
 
 const drawerWidth = 260;
 
@@ -51,84 +57,125 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export const Navbar = ({ isAuthenticated }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+  const auth = useContext(AuthContext)
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const handleDrawerOpen = () => setOpen(true);
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerClose = () => setOpen(false);
+
+  const logoutHandler = (event) => {
+	  event.preventDefault()
+	  auth.logout()
+	  navigate('/admin')
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-			<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-				<IconButton
-					color="inherit"
-					aria-label="open drawer"
-					onClick={handleDrawerOpen}
-					edge="start"
-					sx={{ mr: 0, ...(open && { display: 'none' }) }}
-				>
-					<MenuIcon />
-				</IconButton>
-				<HomeIcon sx={{ marginLeft: '10px' }}/>
-			</div>
-			{
-				open || isAuthenticated ? <></> : <SearchPanel open={open}/>
-			}
-			<Button variant="text" sx={{ color: '#fff' }}>Выйти</Button>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Каталог', 'Красота', 'Здоровье', 'Дом'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['Панель Администратора'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+		<CssBaseline />
+		<AppBar position="fixed" open={open}>
+			<Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+				<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+					{
+						isAuthenticated ? 
+						<AddForm /> :
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							onClick={handleDrawerOpen}
+							edge="start"
+							sx={{ mr: 0, ...(open && { display: 'none' }) }}
+						>
+							<MenuIcon />
+						</IconButton>
+					}
+					{
+						isAuthenticated ? 
+						<></> : 
+						<IconButton>
+							<NavLink to='/' >
+								<HomeIcon sx={{ color: '#fff' }} />
+							</NavLink>
+						</IconButton>
+					}
+				</div>
+				<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+					{
+						open ? <></> : <SearchPanel open={open}/>
+					}
+					{
+						isAuthenticated ? 
+						<Button 
+							variant="text" 
+							sx={{ color: '#fff' }}
+							onClick={logoutHandler}
+						>
+							Выйти
+						</Button> : 
+						<IconButton>
+							<NavLink to='/cart'>
+								<AddShoppingCartIcon sx={{ color: '#fff' }} />
+							</NavLink>
+						</IconButton>
+					}
+				</div>
+			</Toolbar>
+      	</AppBar>
+		<Drawer
+			sx={{
+			width: drawerWidth,
+			flexShrink: 0,
+			'& .MuiDrawer-paper': {
+				width: drawerWidth,
+				boxSizing: 'border-box',
+			},
+			}}
+			variant="persistent"
+			anchor="left"
+			open={open}
+		>
+			<DrawerHeader>
+			<IconButton onClick={handleDrawerClose}>
+				{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+			</IconButton>
+			</DrawerHeader>
+			<Divider />
+			<List>
+				<ListItem disablePadding>
+				<ListItemButton>
+					<ListItemIcon>
+						<ImportContactsIcon />
+					</ListItemIcon>
+					<ListItemText>Весь каталог</ListItemText>
+				</ListItemButton>
+				</ListItem>
+				<ListItem disablePadding>
+				<ListItemButton>
+					<ListItemIcon>
+						<AutoFixHighIcon />
+					</ListItemIcon>
+					<ListItemText>Красота</ListItemText>
+				</ListItemButton>
+				</ListItem>
+				<ListItem disablePadding>
+				<ListItemButton>
+					<ListItemIcon>
+						<HouseIcon />
+					</ListItemIcon>
+					<ListItemText>Дом</ListItemText>
+				</ListItemButton>
+				</ListItem>
+				<ListItem disablePadding>
+				<ListItemButton>
+					<ListItemIcon>
+						<FavoriteBorderIcon />
+					</ListItemIcon>
+					<ListItemText>Здоровье</ListItemText>
+				</ListItemButton>
+				</ListItem>
+			</List>
+		</Drawer>
     </Box>
   );
 }

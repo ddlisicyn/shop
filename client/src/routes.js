@@ -28,6 +28,8 @@ export const useRoutes = isAuthenticated => {
 			</Route>
 			<Route path="/admin" exact element={ <AdminPage /> }>
 			</Route>
+			<Route path="/redactor" element={<Navigate to="/admin" />}>
+			</Route>
 			<Route path="*" element={<Navigate to="/" />}>
 			</Route>
 		</Routes>

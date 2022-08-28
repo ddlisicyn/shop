@@ -15,12 +15,10 @@ function App() {
       login, logout, token, userId, isAuthenticated
     }}>
       <BrowserRouter>
-        {
-          !isAuthenticated ? <></> : <Navbar isAuthenticated={isAuthenticated} />
-        }
-        <>
+        <Navbar isAuthenticated={isAuthenticated} />
+        <div style={{ marginTop: '50px' }} >
           { routes }
-        </>
+        </div>
       </BrowserRouter>
     </AuthContext.Provider>
   );
