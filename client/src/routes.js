@@ -5,12 +5,15 @@ import { CartPage } from './pages/CartPage';
 import { FormPage } from './pages/FormPage';
 import { AdminPage } from './pages/AdminPage';
 import { RedactorPage } from './pages/RedactorPage';
+import { DetailPage } from './pages/DetailPage';
 
 export const useRoutes = isAuthenticated => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
 				<Route path="/redactor" exact element={ <RedactorPage /> }>
+				</Route>
+				<Route path="/detail/:id" exact element={ <DetailPage /> }>
 				</Route>
 				<Route path="*" element={ <Navigate to="/redactor" /> }>
 				</Route>
@@ -27,6 +30,8 @@ export const useRoutes = isAuthenticated => {
 			<Route path="/form" exact element={ <FormPage /> }>
 			</Route>
 			<Route path="/admin" exact element={ <AdminPage /> }>
+			</Route>
+			<Route path="/detail/:id" exact element={ <DetailPage /> }>
 			</Route>
 			<Route path="/redactor" element={<Navigate to="/admin" />}>
 			</Route>

@@ -22,7 +22,7 @@ export const AdminPage = () => {
 
 	const loginHandler = async () => {
 		try {
-			const data = await request('/api/admin/login', 'POST', {...form});
+			const data = await request('/api/admin/login', 'POST', { ...form });
 			auth.login(data.token, data.userId);
 		} catch (e) {}
 	}
