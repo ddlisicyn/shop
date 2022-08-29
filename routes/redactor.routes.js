@@ -26,7 +26,7 @@ router.post('/generate', auth, async (request, response) => {
 	}
 });
 
-router.delete('/', auth, async (request, response) => {
+/* router.delete('/', auth, async (request, response) => {
 	try {
 		const { idlinkId } = request.body;
 
@@ -55,6 +55,6 @@ router.get('/:id', auth, async (request, response) => {
 	} catch(e) {
 		response.status(500).json({ message: "Что-то пошло не так, попробуйте снова" });
 	}
-});
+}); */
 
 module.exports = router

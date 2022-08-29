@@ -59,6 +59,7 @@ export const AddForm = () => {
 	const addProductHandler = async () => {
 		try {
 			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${auth.token}` });
+			handleClose();
 			navigate(`/detail/${form.id}`);
 		} catch (e) {}
 	}

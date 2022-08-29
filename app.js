@@ -8,6 +8,7 @@ app.use(express.json({ extended: true }));
 
 app.use('/api/admin', require('./routes/admin.routes'));
 app.use('/api/redactor', require('./routes/redactor.routes'));
+app.use('/api/', require('./routes/products.routes'));
 
 const port = config.get('port') || 5000;
 

@@ -72,7 +72,7 @@ export const Navbar = ({ isAuthenticated }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', marginBottom: '20px' }}>
 		<CssBaseline />
 		<AppBar position="fixed" open={open}>
 			<Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

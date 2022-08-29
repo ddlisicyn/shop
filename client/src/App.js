@@ -16,7 +16,7 @@ function App() {
     }}>
       <BrowserRouter>
         <Navbar isAuthenticated={isAuthenticated} />
-        <div style={{ marginTop: '50px' }} >
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '80px 5% 50px' }} >
           { routes }
         </div>
       </BrowserRouter>
