@@ -2,17 +2,21 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useRoutes } from './routes';
 import { useAuth } from './hooks/auth.hook';
-import { AuthContext } from './context/AuthContext';
+import { useCart } from './hooks/cart.hook';
+import { Context } from './context/Context';
 import { Navbar } from './components/Navbar';
 
 function App() {
   const { login, logout, token, userId } = useAuth();
+  const { products, addProduct, removeProduct, deleteProduct, deleteAll } = useCart();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
 
   return (
-    <AuthContext.Provider value={{
-      login, logout, token, userId, isAuthenticated
+    <Context.Provider value={{
+      login, logout, token, userId, isAuthenticated, 
+      products, addProduct, removeProduct, deleteProduct,
+      deleteAll
     }}>
       <BrowserRouter>
         <Navbar isAuthenticated={isAuthenticated} />
@@ -20,7 +24,7 @@ function App() {
           { routes }
         </div>
       </BrowserRouter>
-    </AuthContext.Provider>
+    </Context.Provider>
   );
 }
 

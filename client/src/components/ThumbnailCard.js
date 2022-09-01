@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Container, Box, Typography, CardActions, Button } from '@mui/material';
+import { Context } from '../context/Context';
 
 export const ThumbnailCard = ({ product }) => {
+	const cart = useContext(Context);
 	const navigate = useNavigate();
 	const { id, name, img, price, discountPrice } = product;
 
-	const handleClick = () => {
+	const handleClickDetail = () => {
 		navigate(`/detail/${id}`);
+	}
+
+	const handleClickAddProduct = () => {
+		cart.addProduct(id);
 	}
 
 	return (
 		<Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-			<CardContent sx={{ width: '100%' }} onClick={handleClick}>
+			<CardContent sx={{ width: '100%' }} onClick={handleClickDetail}>
 				<Box>
 					<CardMedia
 						component="img"
@@ -24,7 +30,7 @@ export const ThumbnailCard = ({ product }) => {
 				<Container sx={{ textAlign: 'center', padding: '0 !important' }} >
 					<Typography gutterBottom variant="subtitle1" component="div" sx={{ wordWrap: 'break-word', cursor: 'pointer' }} >
 						{
-							name.length > 50 ? name.substring(0, 46).trim() + '...' : name
+							name.length > 45 ? name.substring(0, 42).trim() + '...' : name
 						}
 					</Typography>
 					<Typography variant="subtitle2">
@@ -36,7 +42,7 @@ export const ThumbnailCard = ({ product }) => {
 				</Container>
 			</CardContent>
 			<CardActions>
-				<Button size="medium" variant="contained">Добавить в корзину</Button>
+				<Button size="medium" variant="contained" onClick={handleClickAddProduct}>Добавить в корзину</Button>
       		</CardActions>
 		</Card>
 	)

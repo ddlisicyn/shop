@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { Context } from '../context/Context';
 import { useHttp } from '../hooks/http.hook';
 import { Container, TextField, Button, Box, IconButton, Modal, MenuItem }  from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -34,7 +34,7 @@ const categories = [
 
 export const AddForm = () => {
 	const { loading,  request } = useHttp();
-	const auth = useContext(AuthContext);
+	const auth = useContext(Context);
 	const navigate = useNavigate();
   	const [open, setOpen] = useState(false);
 	const [form, setForm] = useState({ 

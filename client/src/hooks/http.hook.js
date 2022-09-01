@@ -17,6 +17,7 @@ export const useHttp = () => {
 			const data = await response.json();
 
 			if (!response.ok) {
+				console.log(data.message)
 				throw new Error(data.message || 'Что-то пошло не так');
 			}
 
@@ -25,6 +26,7 @@ export const useHttp = () => {
 			return data;
 
 		} catch(e) {
+			console.log(e.message)
 			setLoading(false);
 			setError(e.message);
 			throw e;

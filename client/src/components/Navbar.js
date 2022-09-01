@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { Context } from '../context/Context';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -23,9 +23,19 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
 import { SearchPanel } from './SearchPanel';
 import { AddForm } from './AddForm';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
 
 const drawerWidth = 260;
 
@@ -58,8 +68,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Navbar = ({ isAuthenticated }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const auth = useContext(AuthContext)
+  const auth = useContext(Context);
+  const cart = useContext(Context);
   const [open, setOpen] = React.useState(false);
+  const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
 
   const handleDrawerOpen = () => setOpen(true);
 
@@ -70,6 +82,16 @@ export const Navbar = ({ isAuthenticated }) => {
 	  auth.logout()
 	  navigate('/admin')
   }
+
+  useEffect(() => {
+	let amount = 0;
+
+	for (let key in cart.products) {
+		amount += cart.products[key];
+	}
+
+	setAmountOfProductsInCart(amount);
+  }, [cart.products]);
 
   return (
     <Box sx={{ display: 'flex', marginBottom: '20px' }}>
@@ -115,7 +137,9 @@ export const Navbar = ({ isAuthenticated }) => {
 						</Button> : 
 						<IconButton>
 							<NavLink to='/cart'>
-								<AddShoppingCartIcon sx={{ color: '#fff' }} />
+								<StyledBadge badgeContent={amountOfProductsInCart} color="primary">
+									<ShoppingCartIcon sx={{ color: '#fff' }} />
+								</StyledBadge>
 							</NavLink>
 						</IconButton>
 					}

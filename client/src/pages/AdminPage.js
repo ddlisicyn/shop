@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Container, TextField, Button, Snackbar, Alert }  from '@mui/material';
 import { useHttp } from '../hooks/http.hook';
-import { AuthContext } from '../context/AuthContext';
+import { Context } from '../context/Context';
 
 export const AdminPage = () => {
-	const auth = useContext(AuthContext);
+	const auth = useContext(Context);
 	const { loading, /* error, */ request } = useHttp();
 	const [form, setForm] = useState({ email: '', password: '' });
 	/* const [alert, setAlert] = useState(false); */
