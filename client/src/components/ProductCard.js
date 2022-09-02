@@ -7,7 +7,7 @@ export const ProductCard = ({ product }) => {
 	const cart = useContext(Context);
 
 	const handleClickAddProduct = () => {
-		cart.addProduct(id);
+		cart.addProduct(id, discountPrice);
 	}
 
 	return (

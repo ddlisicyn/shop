@@ -9,13 +9,9 @@ export const CartPage = () => {
 	const cart = useContext(Context);
 
 	useEffect(() => {
-		setCartProducts(cart.products)
-	}, [cart.products]);
-
-	const handlePrice = useCallback((price) => {
-		let newStateOfTotalPrice = totalPrice + price;
-		setTotalPrice(newStateOfTotalPrice);
-	}, [totalPrice]);
+		setCartProducts(cart.products);
+		setTotalPrice(cart.totalPrice);
+	}, [cart]);
 
 	return (
 		<Container sx={{ display: 'flex', flexDirection: 'column' }} >
@@ -28,7 +24,7 @@ export const CartPage = () => {
 					cartProducts && Object.keys(cartProducts).length ?
 					Object.entries(cartProducts).map(cartProduct => (
 						<Grid item xs={12} sm={12} md={12} key={cartProduct[0]}>
-							<CartProduct cartProduct={cartProduct} handlePrice={handlePrice} />
+							<CartProduct cartProduct={cartProduct} />
 						</Grid>
 					)) :
 					'Корзина пуста'

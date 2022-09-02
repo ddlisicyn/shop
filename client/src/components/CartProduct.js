@@ -7,11 +7,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
-export const CartProduct = ({ cartProduct, handlePrice }) => {
+export const CartProduct = ({ cartProduct }) => {
 	const cart = useContext(Context);
 	const id = cartProduct[0];
 	const [product, setProduct] = useState({});
-	const [amount, setAmount] = useState(cartProduct[1]);
+	const [amount, setAmount] = useState(cartProduct[1].amount);
 	const [show, setShow] = useState(true);
 	const { loading, request} = useHttp();
 
@@ -49,7 +49,7 @@ export const CartProduct = ({ cartProduct, handlePrice }) => {
 
 	return (
 		<>
-			{ show ? 
+			{ show && amount ? 
 				<Container sx={{ display: 'flex', flexDirection: 'column', width: '100%', background: '#fff', padding: '10px' }} >
 					<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} >
 						<img src={product.img} style={{ width: '25%', maxWidth: '100px' }} alt='img'></img>
@@ -64,10 +64,17 @@ export const CartProduct = ({ cartProduct, handlePrice }) => {
 					</Box>
 					<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
 						<ButtonGroup variant="outlined" sx={{ display: 'flex', alignItems: 'center' }}>
-							<IconButton variant="outlined" color="error" disabled={amount === 1} onClick={handleRemove}>
+							<IconButton variant="outlined" color="error" disabled={amount === 1}  onClick={handleRemove}>
 								<RemoveIcon />
 							</IconButton>
-							<TextField variant="outlined" value={amount} className="cart-item__amount-input" />
+							<TextField 
+								variant="outlined" 
+								className="cart-item__amount-input" 
+								value={amount} 
+								InputProps={{
+									readOnly: true,
+								}} 
+							/>
 							<IconButton variant="outlined" color="primary" onClick={handleAdd} >
 								<AddIcon />
 							</IconButton>

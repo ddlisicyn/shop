@@ -8,7 +8,7 @@ import { Navbar } from './components/Navbar';
 
 function App() {
   const { login, logout, token, userId } = useAuth();
-  const { products, addProduct, removeProduct, deleteProduct, deleteAll } = useCart();
+  const { products, addProduct, removeProduct, deleteProduct, deleteAll, totalPrice, setAmount } = useCart();
   const isAuthenticated = !!token;
   const routes = useRoutes(isAuthenticated);
 
@@ -16,7 +16,7 @@ function App() {
     <Context.Provider value={{
       login, logout, token, userId, isAuthenticated, 
       products, addProduct, removeProduct, deleteProduct,
-      deleteAll
+      deleteAll, totalPrice, setAmount
     }}>
       <BrowserRouter>
         <Navbar isAuthenticated={isAuthenticated} />
