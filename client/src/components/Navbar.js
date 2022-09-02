@@ -87,7 +87,7 @@ export const Navbar = ({ isAuthenticated }) => {
 	let amount = 0;
 
 	for (let key in cart.products) {
-		amount += cart.products[key];
+		amount += +cart.products[key].amount;
 	}
 
 	setAmountOfProductsInCart(amount);

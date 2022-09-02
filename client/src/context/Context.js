@@ -12,5 +12,7 @@ export const Context = createContext({
 	addProduct: noop,
 	removeProduct: noop,
 	deleteProduct: noop,
-	deleteAll: noop
+	deleteAll: noop,
+	totalPrice: 0,
+	setAmount: noop
 });

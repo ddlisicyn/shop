@@ -13,7 +13,7 @@ export const ThumbnailCard = ({ product }) => {
 	}
 
 	const handleClickAddProduct = () => {
-		cart.addProduct(id);
+		cart.addProduct(id, discountPrice);
 	}
 
 	return (
@@ -42,7 +42,7 @@ export const ThumbnailCard = ({ product }) => {
 				</Container>
 			</CardContent>
 			<CardActions>
-				<Button size="medium" variant="contained" onClick={handleClickAddProduct}>Добавить в корзину</Button>
+				<Button size="medium" variant="contained" sx={{ marginBottom: '20px' }} onClick={handleClickAddProduct}>Добавить в корзину</Button>
       		</CardActions>
 		</Card>
 	)
