@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../context/Context';
 import { CartProduct } from '../components/CartProduct';
 import { Grid, Container, Box, Typography } from '@mui/material';
+import { OrderForm } from '../components/OrderForm';
 
 export const CartPage = () => {
 	const [cartProducts, setCartProducts] = useState({});
@@ -14,7 +15,7 @@ export const CartPage = () => {
 	}, [cart]);
 
 	return (
-		<Container sx={{ display: 'flex', flexDirection: 'column' }} >
+		<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
 			<Grid
 				container
 				spacing={{ xs: 1, sm: 1, md: 1 }}
@@ -30,14 +31,15 @@ export const CartPage = () => {
 					'Корзина пуста'
 				}
 			</Grid>
-			<Box>
-				<Typography variant="h6" textAlign="right">
+			<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: '10px'  }}>
+				<Typography variant="h6">
 					Итог:
 				</Typography>
-				<Typography variant="h6" textAlign="right">
-					{totalPrice}
+				<Typography variant="h6">
+					{totalPrice},00 ₽
 				</Typography>
 			</Box>
+			<OrderForm />
 		</Container>
 	)
 };

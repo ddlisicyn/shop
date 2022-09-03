@@ -50,9 +50,9 @@ export const CartProduct = ({ cartProduct }) => {
 	return (
 		<>
 			{ show && amount ? 
-				<Container sx={{ display: 'flex', flexDirection: 'column', width: '100%', background: '#fff', padding: '10px' }} >
+				<Container className='cart-item' >
 					<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} >
-						<img src={product.img} style={{ width: '25%', maxWidth: '100px' }} alt='img'></img>
+						<img src={product.img} style={{ width: '25%', maxWidth: '120px' }} alt='img'></img>
 						<Typography variant="subtitle2" gutterBottom>
 							{product.name}
 						</Typography>

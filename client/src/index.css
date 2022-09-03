@@ -9,6 +9,14 @@ body {
   margin: 80px 5% 50px;
 }
 
+.cart-item { 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  padding: 10px
+}
+
 .cart-item__amount-input {
   width: 40px;
   height: 28px;
