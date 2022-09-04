@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { MainPage } from './pages/MainPage';
 import { CartPage } from './pages/CartPage';
-import { FormPage } from './pages/FormPage';
 import { AdminPage } from './pages/AdminPage';
 import { RedactorPage } from './pages/RedactorPage';
 import { DetailPage } from './pages/DetailPage';
@@ -26,8 +25,6 @@ export const useRoutes = isAuthenticated => {
 			<Route path="/" exact element={ <MainPage /> }>
 			</Route>
 			<Route path="/cart" exact element={ <CartPage /> }>
-			</Route>
-			<Route path="/form" exact element={ <FormPage /> }>
 			</Route>
 			<Route path="/admin" exact element={ <AdminPage /> }>
 			</Route>
