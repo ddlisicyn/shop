@@ -60,6 +60,16 @@ export const AddForm = () => {
 		try {
 			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${auth.token}` });
 			handleClose();
+			setForm({ 
+				id: '', 
+				name: '',
+				description: '',
+				img: '',
+				category: 'Дом',
+				subcategories: [],
+				price: '',
+				discountPrice: ''
+			 });
 			navigate(`/detail/${form.id}`);
 		} catch (e) {}
 	}

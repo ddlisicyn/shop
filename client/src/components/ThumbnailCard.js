@@ -30,7 +30,8 @@ export const ThumbnailCard = ({ product }) => {
 				<Container sx={{ textAlign: 'center', padding: '0 !important' }} >
 					<Typography gutterBottom variant="subtitle1" component="div" sx={{ wordWrap: 'break-word', cursor: 'pointer' }} >
 						{
-							name.length > 45 ? name.substring(0, 42).trim() + '...' : name
+							name.length > 45 ? name.substring(0, 42).trim() + '...' : 
+							name.length < 45 ? name.padEnd(45, ' ') : name
 						}
 					</Typography>
 					<Typography variant="subtitle2">

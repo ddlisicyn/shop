@@ -39,6 +39,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const drawerWidth = 260;
 
+const categories = [
+	{ name: 'all', value: 'Весь каталог', icon: <ImportContactsIcon /> },
+	{ name: 'Дом', value: 'Дом', icon: <HouseIcon /> },
+	{ name: 'Красота', value: 'Красота', icon: <AutoFixHighIcon />},
+	{ name: 'Здоровье', value: 'Здоровье', icon: <FavoriteBorderIcon /> }
+];
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
@@ -66,140 +73,124 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export const Navbar = ({ isAuthenticated }) => {
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const auth = useContext(Context);
-  const cart = useContext(Context);
-  const [open, setOpen] = React.useState(false);
-  const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
+	const theme = useTheme();
+	const navigate = useNavigate();
+	const auth = useContext(Context);
+	const cart = useContext(Context);
+	const products = useContext(Context);
+	const [open, setOpen] = React.useState(false);
+	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
 
-  const handleDrawerOpen = () => setOpen(true);
+	const handleDrawerOpen = () => setOpen(true);
 
-  const handleDrawerClose = () => setOpen(false);
+	const handleDrawerClose = () => setOpen(false);
 
-  const logoutHandler = (event) => {
-	  event.preventDefault()
-	  auth.logout()
-	  navigate('/admin')
-  }
+	const handleHomeButton = () => navigate('/');
 
-  useEffect(() => {
-	let amount = 0;
-
-	for (let key in cart.products) {
-		amount += +cart.products[key].amount;
+	const logoutHandler = (event) => {
+		event.preventDefault()
+		auth.logout()
+		navigate('/admin')
 	}
 
-	setAmountOfProductsInCart(amount);
-  }, [cart.products]);
+	useEffect(() => {
+		let amount = 0;
 
-  return (
-    <Box sx={{ display: 'flex', marginBottom: '20px' }}>
-		<CssBaseline />
-		<AppBar position="fixed" open={open}>
-			<Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-				<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-					{
-						isAuthenticated ? 
-						<AddForm /> :
-						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							onClick={handleDrawerOpen}
-							edge="start"
-							sx={{ mr: 0, ...(open && { display: 'none' }) }}
-						>
-							<MenuIcon />
-						</IconButton>
-					}
-					{
-						isAuthenticated ? 
-						<></> : 
-						<IconButton>
-							<NavLink to='/' >
+		for (let key in cart.products) {
+			amount += +cart.products[key].amount;
+		}
+
+		setAmountOfProductsInCart(amount);
+	}, [cart.products]);
+
+	return (
+		<Box sx={{ display: 'flex', marginBottom: '20px' }}>
+			<CssBaseline />
+			<AppBar position="fixed" open={open}>
+				<Toolbar sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						{
+							isAuthenticated ? 
+							<AddForm /> :
+							<IconButton
+								color="inherit"
+								aria-label="open drawer"
+								onClick={handleDrawerOpen}
+								edge="start"
+								sx={{ mr: 0, ...(open && { display: 'none' }) }}
+							>
+								<MenuIcon />
+							</IconButton>
+						}
+						{
+							isAuthenticated ? 
+							<></> : 
+							<IconButton onClick={handleHomeButton} >
 								<HomeIcon sx={{ color: '#fff' }} />
-							</NavLink>
-						</IconButton>
-					}
-				</div>
-				<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-					{
-						open ? <></> : <SearchPanel open={open}/>
-					}
-					{
-						isAuthenticated ? 
-						<Button 
-							variant="text" 
-							sx={{ color: '#fff' }}
-							onClick={logoutHandler}
-						>
-							Выйти
-						</Button> : 
-						<IconButton>
-							<NavLink to='/cart'>
-								<StyledBadge badgeContent={amountOfProductsInCart} color="primary">
-									<ShoppingCartIcon sx={{ color: '#fff' }} />
-								</StyledBadge>
-							</NavLink>
-						</IconButton>
-					}
-				</div>
-			</Toolbar>
-      	</AppBar>
-		<Drawer
-			sx={{
-			width: drawerWidth,
-			flexShrink: 0,
-			'& .MuiDrawer-paper': {
+							</IconButton>
+						}
+					</div>
+					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						{
+							open ? <></> : <SearchPanel open={open}/>
+						}
+						{
+							isAuthenticated ? 
+							<Button 
+								variant="text" 
+								sx={{ color: '#fff' }}
+								onClick={logoutHandler}
+							>
+								Выйти
+							</Button> : 
+							<IconButton>
+								<NavLink to='/cart'>
+									<StyledBadge badgeContent={amountOfProductsInCart} color="primary">
+										<ShoppingCartIcon sx={{ color: '#fff' }} />
+									</StyledBadge>
+								</NavLink>
+							</IconButton>
+						}
+					</div>
+				</Toolbar>
+			</AppBar>
+			<Drawer
+				sx={{
 				width: drawerWidth,
-				boxSizing: 'border-box',
-			},
-			}}
-			variant="persistent"
-			anchor="left"
-			open={open}
-		>
-			<DrawerHeader>
-			<IconButton onClick={handleDrawerClose}>
-				{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-			</IconButton>
-			</DrawerHeader>
-			<Divider />
-			<List>
-				<ListItem disablePadding>
-				<ListItemButton>
-					<ListItemIcon>
-						<ImportContactsIcon />
-					</ListItemIcon>
-					<ListItemText>Весь каталог</ListItemText>
-				</ListItemButton>
-				</ListItem>
-				<ListItem disablePadding>
-				<ListItemButton>
-					<ListItemIcon>
-						<AutoFixHighIcon />
-					</ListItemIcon>
-					<ListItemText>Красота</ListItemText>
-				</ListItemButton>
-				</ListItem>
-				<ListItem disablePadding>
-				<ListItemButton>
-					<ListItemIcon>
-						<HouseIcon />
-					</ListItemIcon>
-					<ListItemText>Дом</ListItemText>
-				</ListItemButton>
-				</ListItem>
-				<ListItem disablePadding>
-				<ListItemButton>
-					<ListItemIcon>
-						<FavoriteBorderIcon />
-					</ListItemIcon>
-					<ListItemText>Здоровье</ListItemText>
-				</ListItemButton>
-				</ListItem>
-			</List>
-		</Drawer>
-    </Box>
-  );
+				flexShrink: 0,
+				'& .MuiDrawer-paper': {
+					width: drawerWidth,
+					boxSizing: 'border-box',
+				},
+				}}
+				variant="persistent"
+				anchor="left"
+				open={open}
+			>
+				<DrawerHeader>
+				<IconButton onClick={handleDrawerClose}>
+					{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+				</IconButton>
+				</DrawerHeader>
+				<Divider />
+				<List>
+					{
+						categories.map((category) => (
+							<ListItem disablePadding key={category.name + category.value}>
+								<ListItemButton onClick={() => {
+									products.handleCategory(category.name);						
+									handleDrawerClose();
+								}}>
+									<ListItemIcon>
+										{category.icon}
+									</ListItemIcon>
+									<ListItemText>{category.value}</ListItemText>
+								</ListItemButton>
+							</ListItem>
+						))
+					}
+				</List>
+			</Drawer>
+		</Box>
+	);
 }
