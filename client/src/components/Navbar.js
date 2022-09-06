@@ -85,7 +85,10 @@ export const Navbar = ({ isAuthenticated }) => {
 
 	const handleDrawerClose = () => setOpen(false);
 
-	const handleHomeButton = () => navigate('/');
+	const handleHomeButton = () => {
+		products.handleCategory('all');
+		navigate('/')
+	}
 
 	const logoutHandler = (event) => {
 		event.preventDefault()
@@ -178,7 +181,8 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									products.handleCategory(category.name);						
+									products.handleCategory(category.name);		
+									navigate('/');				
 									handleDrawerClose();
 								}}>
 									<ListItemIcon>

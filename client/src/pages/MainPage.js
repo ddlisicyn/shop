@@ -24,6 +24,7 @@ export const MainPage = () => {
 	}, [getProduct]);
 
 	useEffect(() => {
+		console.log(products.category)
 		const category = products.category;
 
 		if (category === 'all') {

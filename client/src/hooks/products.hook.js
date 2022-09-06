@@ -12,5 +12,7 @@ export const useProducts = () => {
 		setSearch(search);
 	}, []);
 
+
+
 	return { category, search, handleCategory, handleSearch }
 };
