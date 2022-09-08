@@ -79,6 +79,7 @@ export const OrderForm = () => {
 			text += `${newLine}Конечная стоимость: ${cart.totalPrice}`;
 
 			await request(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${text}`, 'POST');
+			cart.deleteAll();
 			handleClose();
 			setOpenSuccessModal(true);
 		} catch (e) {

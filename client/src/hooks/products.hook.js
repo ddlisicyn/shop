@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback} from 'react';
 
 export const useProducts = () => {
 	const [category, setCategory] = useState('all');
@@ -12,7 +12,7 @@ export const useProducts = () => {
 		setSearch(search);
 	}, []);
 
-
+	console.log(search)
 
 	return { category, search, handleCategory, handleSearch }
 };
