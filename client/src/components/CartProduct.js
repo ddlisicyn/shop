@@ -69,13 +69,13 @@ export const CartProduct = ({ cartProduct }) => {
 							</IconButton>
 							<TextField 
 								variant="outlined" 
-								className="cart-item__amount-input" 
+								className="cart-item__amount-input"
 								value={amount} 
 								InputProps={{
 									readOnly: true,
 								}} 
 							/>
-							<IconButton variant="outlined" color="primary" onClick={handleAdd} >
+							<IconButton variant="outlined" color="primary" disabled={amount === 99} onClick={handleAdd}  >
 								<AddIcon />
 							</IconButton>
 						</ButtonGroup>

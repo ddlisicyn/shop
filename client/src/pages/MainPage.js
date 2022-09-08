@@ -24,8 +24,18 @@ export const MainPage = () => {
 	}, [getProduct]);
 
 	useEffect(() => {
-		console.log(products.category)
 		const category = products.category;
+		const search = products.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
+
+		setFilteredProducts(allProducts.filter(product => {
+			const name = product.name.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
+
+			if (!name.includes(search)) {
+				return
+			}
+
+			return product
+		}));
 
 		if (category === 'all') {
 			setFilteredProducts(allProducts);
@@ -33,7 +43,7 @@ export const MainPage = () => {
 			setFilteredProducts(allProducts.filter(product => product.category === category));
 		}
 
-	}, [products.category, allProducts]);
+	}, [products.category, products.search, allProducts]);
 
 	if (loading) {
 		return <Loader />
@@ -45,7 +55,7 @@ export const MainPage = () => {
 				Всего {filteredProducts.length === 1 ? <>{filteredProducts.length} товар</> : 
 				<>
 					{
-						filteredProducts.length <= 4 ? <>{filteredProducts.length} товара</> : <>{filteredProducts.length} товаров</>
+						filteredProducts.length <= 4 && filteredProducts.length > 0 ? <>{filteredProducts.length} товара</> : <>{filteredProducts.length} товаров</>
 					}
 				</>
 				}
@@ -62,7 +72,7 @@ export const MainPage = () => {
 							<ThumbnailCard product={product} />
 						</Grid>
 					)) :
-					'В магазине пока нет товаров'
+					<></>
 				}
 			</Grid>
 		</Container>

@@ -49,6 +49,7 @@ export const useCart = () => {
 
 	const deleteAll = useCallback(() => {
 		localStorage.removeItem(storageName);
+		setProducts(null);
 	}, []);
 
 	const setAmount = useCallback((id, amount) => {

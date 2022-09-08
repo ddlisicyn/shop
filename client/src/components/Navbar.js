@@ -132,11 +132,11 @@ export const Navbar = ({ isAuthenticated }) => {
 								<HomeIcon sx={{ color: '#fff' }} />
 							</IconButton>
 						}
-					</div>
-					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 						{
 							open ? <></> : <SearchPanel open={open}/>
 						}
+					</div>
+					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 						{
 							isAuthenticated ? 
 							<Button 
@@ -181,7 +181,7 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									products.handleCategory(category.name);		
+									products.handleCategory(category.name);
 									navigate('/');				
 									handleDrawerClose();
 								}}>

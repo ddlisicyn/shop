@@ -17,6 +17,7 @@ export const Context = createContext({
 	setAmount: noop,
 	category: 'all',
 	search: '',
+	allProducts: [],
 	handleCategory: noop,
 	handleSearch: noop
 });
