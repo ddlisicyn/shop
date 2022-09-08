@@ -41,6 +41,7 @@ export const ThumbnailCard = ({ product }) => {
 							width="100%"
 							image={img}
 							alt={name}
+							sx={{ cursor: 'pointer' }}
 						/>
 					</Box>
 					<Container sx={{ textAlign: 'center', padding: '0 !important' }} >

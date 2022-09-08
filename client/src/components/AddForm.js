@@ -44,6 +44,7 @@ export const AddForm = () => {
 		img: '',
 		category: 'Дом',
 		subcategories: [],
+		capacity: '',
 		price: '',
 		discountPrice: ''
 	 });
@@ -67,6 +68,7 @@ export const AddForm = () => {
 				img: '',
 				category: 'Дом',
 				subcategories: [],
+				capacity: '',
 				price: '',
 				discountPrice: ''
 			 });
@@ -153,6 +155,18 @@ export const AddForm = () => {
 						</MenuItem>
 					))}
 				</TextField>
+				<TextField 
+					id="capacity"
+					label="Вес/объем"
+					name="capacity"
+					type="text"
+					placeholder="Введите вес или объем"
+					variant="outlined" 
+					margin="normal" 
+					sx={{ width: '100%' }}
+					value={form.capacity}
+					onChange={changeHandler}
+				/>
 				<TextField 
 					id="price"
 					label="Цена каталога"

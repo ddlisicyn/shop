@@ -217,7 +217,7 @@ export const OrderForm = () => {
 							<path className="tick" fill="none" stroke="#FFF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" d="M14 27l5.917 4.917L34 17"/>
 						</svg>
 					</div>
-					<Typography variant="body1" gutterBottom mt="15px" textAlign="justify">Мы приняли ваши заказ и свяжемся с Вами в течение 24 часов по указанному номеру телефона.</Typography>
+					<Typography variant="body1" gutterBottom mt="15px" textAlign="justify">Мы приняли ваш заказ и свяжемся с Вами в течение 24 часов по указанному номеру телефона.</Typography>
 				</Container>
 			</Box>
 		</Modal>

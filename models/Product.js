@@ -7,6 +7,7 @@ const schema = new Schema({
 	img: {type: String, required: true},
 	category: {type: String, required: true},
 	subcategories: {type: [String]},
+	capacity: {type: String, required: true},
 	price: {type: Number, required: true},
 	discountPrice: {type: Number, required: true}
 });

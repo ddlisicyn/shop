@@ -4,7 +4,7 @@ import { Context } from '../context/Context';
 
 export const ProductCard = ({ product }) => {
 	const [alert, setAlert] = useState(false);
-	const { id, name, description, img, price, discountPrice } = product;
+	const { id, name, description, img, capacity, price, discountPrice } = product;
 	const cart = useContext(Context);
 
 	const handleClickAddProduct = () => {
@@ -38,13 +38,20 @@ export const ProductCard = ({ product }) => {
 				<Typography variant="overline" sx={{ textDecoration: "line-through", color: "#e06666", }}>
 					{price},00 ₽
 				</Typography>
-				<Button size="medium" variant="contained" mt="25px" onClick={handleClickAddProduct}>Добавить в корзину</Button>
+				<Typography >
+					Вес/объем: {capacity}
+				</Typography>
+				<Button size="medium" variant="contained" sx={{ marginTop: '35px' }} onClick={handleClickAddProduct}>Добавить в корзину</Button>
 				<Typography variant="h6" component="div" mt="50px" sx={{ wordWrap: 'break-word' }} >
 					Описание
 				</Typography>
-				<Typography variant="body1" component="div" mb="20px" sx={{ wordWrap: 'break-word', textAlign: 'justify' }} >
-					{description}
-				</Typography>
+				{
+					description.length ? 
+					<Typography variant="body1" component="div" mb="20px" sx={{ wordWrap: 'break-word', textAlign: 'justify' }} >
+						{description}
+					</Typography> :
+					<>У продукта пока нет описания</>
+				}
 			</Container>
 		</Container>
 	)

@@ -5,7 +5,7 @@ const router = Router();
 
 router.post('/generate', auth, async (request, response) => {
 	try {
-		const { id, name, description, img, category, subcategories, price, discountPrice } = request.body;
+		const { id, name, description, img, category, capacity, subcategories, price, discountPrice } = request.body;
 
 		const existing = await Product.findOne({ id });
 
@@ -14,7 +14,7 @@ router.post('/generate', auth, async (request, response) => {
 		}
 
 		const product = new Product({
-			id, name, description, img, category, subcategories, price, discountPrice
+			id, name, description, img, category, capacity, subcategories, price, discountPrice
 		});
 
 		await product.save()
