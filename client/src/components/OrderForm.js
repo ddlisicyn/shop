@@ -50,7 +50,11 @@ export const OrderForm = () => {
 			value = formatPhoneNumber(value);
 		}
 
-		setForm({ ...form, [name]: value });
+		if (name === 'name') {
+			value = formatSurnameAndName(value);
+		}
+
+		setForm({ ...form, [name]: value});
 	}
 
 	const handleRequestForm = async () => {
@@ -85,6 +89,10 @@ export const OrderForm = () => {
 		} catch (e) {
 			setTimeout(clearError, 2000);
 		}
+	}
+
+	function formatSurnameAndName(value) {
+		return value.replace(/\d+/g, '');
 	}
 
 	function formatPhoneNumber(value) {
@@ -134,6 +142,7 @@ export const OrderForm = () => {
 						placeholder="Иванов Иван"
 						variant="outlined" 
 						margin="normal" 
+						inputProps={{ maxLength: 100 }}
 						sx={{ width: '100%' }}
 						value={form.name}
 						onChange={changeHandler}
@@ -150,9 +159,7 @@ export const OrderForm = () => {
 							name="telephone"
 							type="text"
 							placeholder="(999) 999-9999"
-							inputProps={{
-								maxLength: 14
-							}}
+							inputProps={{ maxLength: 14 }}
 							variant="outlined" 
 							margin="normal"
 							error={!status}
@@ -170,6 +177,7 @@ export const OrderForm = () => {
 						placeholder="Введите город"
 						variant="outlined" 
 						margin="normal"
+						inputProps={{ maxLength: 100 }}
 						sx={{ width: '100%' }}
 						value={form.city}
 						onChange={changeHandler}
@@ -184,6 +192,7 @@ export const OrderForm = () => {
 						margin="normal"
 						multiline
 						rows={3}
+						inputProps={{ maxLength: 300 }}
 						sx={{ width: '100%' }}
 						value={form.description}
 						onChange={changeHandler}

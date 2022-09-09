@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Container, Button, Typography, Fade, Alert } from '@mui/material';
 import { Context } from '../context/Context';
+const shortid = require('shortid');
 
 export const ProductCard = ({ product }) => {
 	const [alert, setAlert] = useState(false);
 	const { id, name, description, img, capacity, price, discountPrice } = product;
 	const cart = useContext(Context);
+	const formatted = description.split('\n').map(elem => <p key={shortid.generate()}>{elem}</p>);
 
 	const handleClickAddProduct = () => {
 		cart.addProduct(id, discountPrice);
@@ -42,13 +44,13 @@ export const ProductCard = ({ product }) => {
 					Вес/объем: {capacity}
 				</Typography>
 				<Button size="medium" variant="contained" sx={{ marginTop: '35px' }} onClick={handleClickAddProduct}>Добавить в корзину</Button>
-				<Typography variant="h6" component="div" mt="50px" sx={{ wordWrap: 'break-word' }} >
+				<Typography variant="h6" component="div" mt="50px" sx={{ wordWrap: 'break-word', textAlign: 'left' }} >
 					Описание
 				</Typography>
 				{
 					description.length ? 
-					<Typography variant="body1" component="div" mb="20px" sx={{ wordWrap: 'break-word', textAlign: 'justify' }} >
-						{description}
+					<Typography variant="body1" component="div" mb="20px" sx={{ wordWrap: 'break-word', textAlign: 'left' }} >
+						{formatted}
 					</Typography> :
 					<>У продукта пока нет описания</>
 				}
