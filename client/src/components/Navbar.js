@@ -86,8 +86,9 @@ export const Navbar = ({ isAuthenticated }) => {
 	const handleDrawerClose = () => setOpen(false);
 
 	const handleHomeButton = () => {
+		products.handleSearch('');
 		products.handleCategory('all');
-		navigate('/')
+		navigate('/');
 	}
 
 	const logoutHandler = (event) => {
@@ -181,8 +182,13 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
+									products.handleSearch('');
 									products.handleCategory(category.name);
-									navigate('/');				
+									navigate('/');		
+									window.scrollTo({
+										top: 0,
+										behavior: 'smooth'
+									});		
 									handleDrawerClose();
 								}}>
 									<ListItemIcon>

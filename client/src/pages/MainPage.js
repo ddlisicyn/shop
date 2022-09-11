@@ -27,20 +27,22 @@ export const MainPage = () => {
 		const category = products.category;
 		const search = products.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
 
-		setFilteredProducts(allProducts.filter(product => {
-			const name = product.name.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
-
-			if (!name.includes(search)) {
-				return
+		if (search === '') {
+			if (category === 'all') {
+				setFilteredProducts(allProducts);
+			} else {
+				setFilteredProducts(allProducts.filter(product => product.category === category));
 			}
-
-			return product
-		}));
-
-		if (category === 'all') {
-			setFilteredProducts(allProducts);
 		} else {
-			setFilteredProducts(allProducts.filter(product => product.category === category));
+			setFilteredProducts(allProducts.filter(product => {
+				const name = product.name.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
+	
+				if (!name.includes(search)) {
+					return
+				}
+	
+				return product
+			}));
 		}
 
 	}, [products.category, products.search, allProducts]);
