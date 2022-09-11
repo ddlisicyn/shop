@@ -54,10 +54,10 @@ export const MainPage = () => {
 	return (
 		<Container>
 			<Typography gutterBottom variant="subtitle2">
-				Всего {filteredProducts.length === 1 ? <>{filteredProducts.length} товар</> : 
+				Всего {filteredProducts.length === 1 ? <>найден {filteredProducts.length} товар</> : 
 				<>
 					{
-						filteredProducts.length <= 4 && filteredProducts.length > 0 ? <>{filteredProducts.length} товара</> : <>{filteredProducts.length} товаров</>
+						filteredProducts.length <= 4 && filteredProducts.length > 0 ? <>найдено {filteredProducts.length} товара</> : <>найдено {filteredProducts.length} товаров</>
 					}
 				</>
 				}

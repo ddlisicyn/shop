@@ -12,7 +12,5 @@ export const useProducts = () => {
 		setSearch(search);
 	}, []);
 
-	console.log(search)
-
 	return { category, search, handleCategory, handleSearch }
 };
