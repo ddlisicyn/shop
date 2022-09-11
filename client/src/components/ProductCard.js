@@ -30,15 +30,15 @@ export const ProductCard = ({ product }) => {
 				</Alert>
 			</Fade>
 			<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', background: '#fff', minHeight: '90vh', borderRadius: '10px' }} >
-				<img src={img} alt={name} width="280px"></img>
+				<img src={img} alt={name} className="main-card__img"></img>
 				<Typography gutterBottom variant="h6" component="div" sx={{ wordWrap: 'break-word', lineHieght: '1.25', marginTop: '25px' }} >
 					{name}
 				</Typography>
 				<Typography variant="button" mt="25px" >
-					{discountPrice},00 ₽
+					{discountPrice.toLocaleString('ru-RU')},00 ₽
 				</Typography>
 				<Typography variant="overline" sx={{ textDecoration: "line-through", color: "#e06666", }}>
-					{price},00 ₽
+					{price.toLocaleString('ru-RU')},00 ₽
 				</Typography>
 				<Typography >
 					Вес/объем: {capacity}

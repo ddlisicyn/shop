@@ -36,7 +36,7 @@ export const CartPage = () => {
 					Итог:
 				</Typography>
 				<Typography variant="h6">
-					{totalPrice},00 ₽
+					{totalPrice.toLocaleString('ru-RU')},00 ₽
 				</Typography>
 			</Box>
 			<OrderForm />

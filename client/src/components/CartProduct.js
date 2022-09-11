@@ -81,10 +81,10 @@ export const CartProduct = ({ cartProduct }) => {
 						</ButtonGroup>
 						<Box>
 							<Typography variant="subtitle2" >
-								{product.discountPrice * amount},00 ₽
+								{(product.discountPrice * amount).toLocaleString('ru-RU')},00 ₽
 							</Typography>
 							<Typography variant="caption" sx={{ textDecoration: "line-through", color: "#e06666" }}>
-								{product.price * amount},00 ₽
+								{(product.price * amount).toLocaleString('ru-RU')},00 ₽
 							</Typography>
 						</Box>
 					</Box>

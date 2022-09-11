@@ -52,10 +52,10 @@ export const ThumbnailCard = ({ product }) => {
 							}
 						</Typography>
 						<Typography variant="subtitle2">
-							{discountPrice},00 ₽
+							{discountPrice.toLocaleString('ru-RU')},00 ₽
 						</Typography>
 						<Typography variant="caption" sx={{ textDecoration: "line-through", color: "#e06666" }}>
-							{price},00 ₽
+							{price.toLocaleString('ru-RU')},00 ₽
 						</Typography>
 					</Container>
 				</CardContent>

@@ -122,7 +122,7 @@ export const AddForm = () => {
 					variant="outlined" 
 					margin="normal"
 					multiline
-					rows={4}
+					rows={6}
 					sx={{ width: '100%' }}
 					value={form.description}
 					onChange={changeHandler}
