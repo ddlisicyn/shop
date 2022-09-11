@@ -54,7 +54,7 @@ export const AddForm = () => {
 	const handleClose = () => setOpen(false);
 
 	const changeHandler = event => {
-		setForm({ ...form, [event.target.name]: event.target.value.trim() });
+		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
 	const addProductHandler = async () => {
