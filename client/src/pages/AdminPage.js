@@ -74,7 +74,7 @@ export const AdminPage = () => {
 					variant="contained" 
 					color="warning"
 					onClick={registerHandler}
-					disabled={loading}
+					disabled
 				>Зарегистрироваться</Button>
 			</Container>
 		</Container>

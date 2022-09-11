@@ -6,7 +6,7 @@ const config = require('config');
 const User = require('../models/User');
 const router = Router();
 
-router.post(
+/* router.post(
 	'/register',
 	[
 		check('email', 'Некорректный email').isEmail(),
@@ -42,7 +42,7 @@ router.post(
 	} catch(e) {
 		response.status(500).json({ message: "Что-то пошло не так, попробуйте снова" });
 	}
-});
+}); */
 
 router.post(
 	'/login',
