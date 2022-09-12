@@ -44,11 +44,12 @@ export const ThumbnailCard = ({ product }) => {
 							sx={{ cursor: 'pointer' }}
 						/>
 					</Box>
-					<Container sx={{ textAlign: 'center', padding: '0 !important' }} >
-						<Typography gutterBottom variant="subtitle1" component="div" sx={{ wordWrap: 'break-word', cursor: 'pointer' }} >
+					<Container className="thumbnailcard__description" sx={{ textAlign: 'center', padding: '0 !important' }} >
+						<Typography gutterBottom variant="subtitle1" component="div" className="thumbnailcard__description-name" sx={{ wordWrap: 'break-word', cursor: 'pointer' }} >
 							{
-								name.length > 45 ? name.substring(0, 42).trim() + '...' : 
-								name.length < 45 ? name.padEnd(45, ' ') : name
+								name
+								/* name.length > 45 ? name.substring(0, 42).trim() + '...' : 
+								name.length < 45 ? name.padEnd(45, ' ') : name */
 							}
 						</Typography>
 						<Typography variant="subtitle2">

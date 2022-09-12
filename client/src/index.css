@@ -32,6 +32,19 @@ body {
   max-width: 480px;
 }
 
+.thumbnailcard__description {
+  width: 100%;
+}
+
+.thumbnailcard__description-name {
+  margin: 0;
+  height: 56px;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @media (min-width: 600px) {
   .main {
     margin: 80px 10% 50px;
