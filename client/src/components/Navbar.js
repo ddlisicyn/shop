@@ -21,6 +21,7 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import HouseIcon from '@mui/icons-material/House';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CleanHandsIcon from '@mui/icons-material/CleanHands';
 import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -43,7 +44,8 @@ const categories = [
 	{ name: 'all', value: 'Весь каталог', icon: <ImportContactsIcon /> },
 	{ name: 'Дом', value: 'Дом', icon: <HouseIcon /> },
 	{ name: 'Красота', value: 'Красота', icon: <AutoFixHighIcon />},
-	{ name: 'Здоровье', value: 'Здоровье', icon: <FavoriteBorderIcon /> }
+	{ name: 'Здоровье', value: 'Здоровье', icon: <FavoriteBorderIcon /> },
+	{ name: 'Уход за телом', value: 'Уход за телом', icon: <CleanHandsIcon /> }
 ];
 
 const AppBar = styled(MuiAppBar, {
@@ -87,7 +89,11 @@ export const Navbar = ({ isAuthenticated }) => {
 
 	const handleHomeButton = () => {
 		products.handleSearch('');
-		products.handleCategory('all');
+		products.handleCategory('all');		
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});		
 		navigate('/');
 	}
 
@@ -183,12 +189,12 @@ export const Navbar = ({ isAuthenticated }) => {
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
 									products.handleSearch('');
-									products.handleCategory(category.name);
-									navigate('/');		
+									products.handleCategory(category.name);		
 									window.scrollTo({
 										top: 0,
 										behavior: 'smooth'
 									});		
+									navigate('/');
 									handleDrawerClose();
 								}}>
 									<ListItemIcon>
