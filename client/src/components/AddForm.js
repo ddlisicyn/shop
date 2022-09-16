@@ -12,9 +12,11 @@ const style = {
 	transform: 'translate(-50%, -50%)',
 	width: '95%',
 	maxWidth: '800px',
+	height: '100vh',
 	bgcolor: 'background.paper',
 	boxShadow: 24,
 	p: 4,
+	overflowY: 'scroll'
 };
 
 const categories = [
@@ -29,6 +31,10 @@ const categories = [
 	{
 		value: 'Здоровье',
 		label: 'Здоровье',	
+	},
+	{
+		value: 'Уход за телом',
+		label: 'Уход за телом'
 	}
 ];
 
