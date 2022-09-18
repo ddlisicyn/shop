@@ -60,7 +60,7 @@ export const OrderForm = () => {
 	const handleRequestForm = async () => {
 		const ids = Object.keys(cart.products);
 		const token = '5794071948:AAHNpCIJqSr3crWo1wlngRVTtSfy5YJ-qe8';
-		const chat_id = -685668943;
+		const chat_id = -1001311071865;
 		const newLine = '%0A';
 		let text = `Информация Клиента:${newLine}
 			ФИО: ${form.name ? form.name : 'Клиент не указал информацию' }${newLine}
