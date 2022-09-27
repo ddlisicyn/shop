@@ -6,7 +6,7 @@ export const useCart = () => {
 	const [products, setProducts] = useState(null);
 	const [totalPrice, setTotalPrice] = useState(0);
 
-	const addProduct = useCallback((id, price) => {
+	const addProduct = useCallback((id, price, discountPrice, name, img, colorName, colorHex) => {
 		let data = JSON.parse(localStorage.getItem(storageName));
 
 		if (data === null) {
@@ -17,8 +17,13 @@ export const useCart = () => {
 			data[id].amount++;
 		} else {
 			data[id] = {
-				price: price,
-				amount: 1
+				price,
+				discountPrice,
+				amount: 1,
+				name,
+				img,
+				colorName,
+				colorHex
 			}
 		}
 
@@ -67,7 +72,7 @@ export const useCart = () => {
 		let totalPrice = 0;
 
 		for (let key in data) {
-			totalPrice += data[key].price * data[key].amount;
+			totalPrice += data[key].discountPrice * data[key].amount;
 		}
 
 		setTotalPrice(totalPrice);

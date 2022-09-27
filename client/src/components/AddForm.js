@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../context/Context';
 import { useHttp } from '../hooks/http.hook';
-import { Container, TextField, Button, Box, IconButton, Modal, MenuItem }  from '@mui/material';
+import { Container, TextField, Button, Box, IconButton, Modal, MenuItem, ListItem }  from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { ColorAddForm } from './ColorAddForm';
+import { ListItemColor } from './ListItemColor';
 
 const style = {
 	position: 'absolute',
@@ -50,6 +52,7 @@ export const AddForm = () => {
 		img: '',
 		category: 'Дом',
 		subcategories: [],
+		colors: [],
 		capacity: '',
 		price: '',
 		discountPrice: ''
@@ -61,6 +64,19 @@ export const AddForm = () => {
 
 	const changeHandler = event => {
 		setForm({ ...form, [event.target.name]: event.target.value });
+	}
+
+	const addColor = (colorForm) => {
+		const colors = form.colors;
+		colors.push(colorForm);
+
+		setForm({ ...form, 'colors': colors });
+	}
+
+	const handleDelete = (id) => {
+		const colors = form.colors.filter(color => color.id !== id);
+
+		setForm({ ...form, 'colors': colors });
 	}
 
 	const addProductHandler = async () => {
@@ -161,6 +177,14 @@ export const AddForm = () => {
 						</MenuItem>
 					))}
 				</TextField>
+				<ListItem sx={{ padding: '8px 0px', flexWrap: 'wrap' }}>
+					{
+						form.colors && form.colors.map((elem) => (
+							<ListItemColor key={elem.id} elem={elem} handleDelete={handleDelete} />
+						))
+					}
+					<ColorAddForm addColor={addColor} />
+				</ListItem>
 				<TextField 
 					id="capacity"
 					label="Вес/объем"

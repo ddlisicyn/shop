@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useHttp } from '../hooks/http.hook';
+import React, { useState, useContext } from 'react';
 import { Context } from '../context/Context';
-import { Loader } from './Loader';
 import { Container, Box, Typography, Tooltip, IconButton, ButtonGroup, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -10,21 +8,9 @@ import AddIcon from '@mui/icons-material/Add';
 export const CartProduct = ({ cartProduct }) => {
 	const cart = useContext(Context);
 	const id = cartProduct[0];
-	const [product, setProduct] = useState({});
+	const product = cartProduct[1];
 	const [amount, setAmount] = useState(cartProduct[1].amount);
 	const [show, setShow] = useState(true);
-	const { loading, request} = useHttp();
-
-	const getProduct = useCallback(async (id) => {
-		try {
-			const fetched = await request(`/api/cart`, 'POST', { id } );
-			setProduct(fetched);
-		} catch(e) {}
-	}, [request]);
-
-	useEffect(() => {
-		getProduct(id);
-	}, [id, getProduct]);
 
 	const handleRemove = () => {
 		let newStateOfAmount = amount - 1;
@@ -43,19 +29,26 @@ export const CartProduct = ({ cartProduct }) => {
 		setShow(false);
 	}
 
-	if (loading) {
-		return <Loader />
-	}
-
 	return (
 		<>
 			{ show && amount ? 
 				<Container className='cart-item' >
 					<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} >
 						<img src={product.img} style={{ width: '25%', maxWidth: '120px' }} alt='img'></img>
-						<Typography variant="subtitle2" gutterBottom>
-							{product.name}
-						</Typography>
+						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+							<Typography variant="subtitle2" gutterBottom>
+								{product.name}
+							</Typography>
+							<Box sx={{ 
+								display: 'flex', 
+								flexDirection: 'row', 
+								alignItems: 'center'
+								}}
+							>
+								<Box sx={{ width: '20px', height: '20px', backgroundColor: `${product.colorHex}` }} />
+								<Typography sx={{ marginLeft: '5px' }} >{product.colorName}</Typography>
+							</Box>
+						</Box>
 						<Tooltip title="Delete" sx={{ order: 999, marginLeft: 'auto' }}>
 							<IconButton onClick={handleDelete}>
 								<DeleteIcon />

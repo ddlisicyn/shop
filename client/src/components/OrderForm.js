@@ -58,7 +58,6 @@ export const OrderForm = () => {
 	}
 
 	const handleRequestForm = async () => {
-		const ids = Object.keys(cart.products);
 		const token = '5794071948:AAHNpCIJqSr3crWo1wlngRVTtSfy5YJ-qe8';
 		const chat_id = -1001311071865;
 		const newLine = '%0A';
@@ -69,16 +68,15 @@ export const OrderForm = () => {
 			Комментарий к заказу: ${form.description ? form.description : 'Клиент не оставил комментарий'}${newLine}${newLine}
 			Заказ:${newLine}`;
 		try {
-			const fetched = await request('api/detail/ids', 'POST', { ids: ids });
-
-			fetched.forEach(product => {
-				const { id, name, discountPrice } = product;
+			for (let key in cart.products) {
+				const id = key;
+				const { name, amount, discountPrice } = cart.products[key];
 
 				text += `• ${name}${newLine}
 					Артикул: ${id}${newLine}
 					Цена: ${discountPrice}${newLine}
-					Количество: ${cart.products[id].amount}${newLine}${newLine}`;
-			});
+					Количество: ${amount}${newLine}${newLine}`;
+			}
 
 			text += `${newLine}Конечная стоимость: ${cart.totalPrice}`;
 
