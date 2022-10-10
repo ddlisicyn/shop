@@ -72,11 +72,14 @@ export const OrderForm = () => {
 				const id = key;
 				const { name, amount, discountPrice } = cart.products[key];
 
-				text += `• ${name}${newLine}
+				text += `• ${name.replace('&', '%26')}${newLine}
 					Артикул: ${id}${newLine}
 					Цена: ${discountPrice}${newLine}
 					Количество: ${amount}${newLine}${newLine}`;
+
 			}
+
+			console.log(text);
 
 			text += `${newLine}Конечная стоимость: ${cart.totalPrice}`;
 
