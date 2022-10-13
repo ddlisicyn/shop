@@ -18,6 +18,7 @@ const style = {
 };
 
 export const OrderForm = () => {
+	const envProcces = process.env.NODE_ENV;
 	const cart = useContext(Context);
 	const products = useContext(Context);
 	const { loading, error, clearError, request } = useHttp();
@@ -59,7 +60,7 @@ export const OrderForm = () => {
 
 	const handleRequestForm = async () => {
 		const token = '5794071948:AAHNpCIJqSr3crWo1wlngRVTtSfy5YJ-qe8';
-		const chat_id = -1001311071865;
+		const chat_id = envProcces === 'development' ? 446803360 : -1001311071865;
 		const newLine = '%0A';
 		let text = `Информация Клиента:${newLine}
 			ФИО: ${form.name ? form.name : 'Клиент не указал информацию' }${newLine}

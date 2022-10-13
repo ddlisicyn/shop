@@ -40,6 +40,53 @@ const categories = [
 	}
 ];
 
+const fields = [
+	{
+		id: "id",
+		label: "Артикул",
+		name: "id",
+		placeholder: "Введите артикул"
+	},
+	{
+		id: "name",
+		label: "Название",
+		name: "name",
+		placeholder: "Введите название продукта"
+	},
+	{
+		id: "description",
+		label: "Описание",
+		name: "description",
+		placeholder: "Введите описание продукта...",
+		multiline: true,
+		rows: 6
+	},
+	{
+		id: "img",
+		label: "Изображение",
+		name: "img",
+		placeholder: "Вставьте ссылку на изображение"
+	},
+	{
+		id: "capacity",
+		label: "Вес/объем",
+		name: "capacity",
+		placeholder: "Введите вес или объем"
+	},
+	{
+		id: "price",
+		label: "Цена каталога",
+		name: "price",
+		placeholder: "Введите цену каталога"
+	},
+	{
+		id: "discountPrice",
+		label: "Цена со скидкой",
+		name: "discountPrice",
+		placeholder: "Введите цену со скидкой"
+	}
+];
+
 export const AddForm = () => {
 	const { loading,  request } = useHttp();
 	const auth = useContext(Context);
@@ -111,56 +158,25 @@ export const AddForm = () => {
       >
         <Box sx={style}>
 		<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 0 }} >
-				<TextField 
-					id="id" 
-					label="Артикул"
-					name="id"
-					type="text"
-					placeholder="Введите артикул"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.id}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="name"
-					label="Название"
-					name="name"
-					type="text"
-					placeholder="Введите название продукта"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.name}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="description" 
-					label="Описание"
-					name="description"
-					type="text"
-					placeholder="Описание продукта..."
-					variant="outlined" 
-					margin="normal"
-					multiline
-					rows={6}
-					sx={{ width: '100%' }}
-					value={form.description}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="img"
-					label="Изображение"
-					name="img"
-					type="text"
-					placeholder="Вставьте ссылку на изображение"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.img}
-					onChange={changeHandler}
-				/>
+			{
+				fields.map((item) => (
+					<TextField 
+						id={item.id}
+						label={item.label}
+						name={item.name}
+						placeholder={item.placeholder}
+						type="text"
+						variant="outlined" 
+						margin="normal"
+						multiline={item.multiline}
+						rows={item.rows || 1}
+						sx={{ width: '100%' }}
+						value={form[item.name]}
+						onChange={changeHandler}
+						// {...item}
+					/>
+				))
+			}
 				<TextField
 					id="category"
 					select
@@ -185,42 +201,6 @@ export const AddForm = () => {
 					}
 					<ColorAddForm addColor={addColor} />
 				</ListItem>
-				<TextField 
-					id="capacity"
-					label="Вес/объем"
-					name="capacity"
-					type="text"
-					placeholder="Введите вес или объем"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.capacity}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="price"
-					label="Цена каталога"
-					name="price"
-					type="text"
-					placeholder="Введите цену каталога"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.price}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="discountPrice"
-					label="Цена со скидкой"
-					name="discountPrice"
-					type="text"
-					placeholder="Введите цену со скидкой"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.discountPrice}
-					onChange={changeHandler}
-				/>
 			</Container>
 			<Container 
 				sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '15px', padding: 0 }} 
