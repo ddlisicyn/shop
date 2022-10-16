@@ -5,16 +5,19 @@ import { CartPage } from './pages/CartPage';
 import { AdminPage } from './pages/AdminPage';
 import { RedactorPage } from './pages/RedactorPage';
 import { DetailPage } from './pages/DetailPage';
+import { routes } from './constants';
+
+const { redactor, detail, core, cart, admin } = routes;
 
 export const useRoutes = isAuthenticated => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
-				<Route path="/redactor" exact element={ <RedactorPage /> }>
+				<Route path={redactor} exact element={ <RedactorPage /> }>
 				</Route>
-				<Route path="/detail/:id" exact element={ <DetailPage /> }>
+				<Route path={`${detail}/:id`} exact element={ <DetailPage /> }>
 				</Route>
-				<Route path="*" element={ <Navigate to="/redactor" /> }>
+				<Route path="*" element={ <Navigate to={redactor}/> }>
 				</Route>
 			</Routes>
 		)
@@ -22,17 +25,17 @@ export const useRoutes = isAuthenticated => {
 
 	return (
 		<Routes>
-			<Route path="/" exact element={ <MainPage /> }>
+			<Route path={core} exact element={ <MainPage /> }>
 			</Route>
-			<Route path="/cart" exact element={ <CartPage /> }>
+			<Route path={cart} exact element={ <CartPage /> }>
 			</Route>
-			<Route path="/admin" exact element={ <AdminPage /> }>
+			<Route path={admin} exact element={ <AdminPage /> }>
 			</Route>
-			<Route path="/detail/:id" exact element={ <DetailPage /> }>
+			<Route path={`${detail}/:id`} exact element={ <DetailPage /> }>
 			</Route>
-			<Route path="/redactor" element={<Navigate to="/admin" />}>
+			<Route path={redactor} element={<Navigate to={admin} />}>
 			</Route>
-			<Route path="*" element={<Navigate to="/" />}>
+			<Route path="*" element={<Navigate to={core} />}>
 			</Route>
 		</Routes>
 	)
