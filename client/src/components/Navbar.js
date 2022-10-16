@@ -78,7 +78,7 @@ export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const context = useContext(Context);
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
 
 	const handleDrawerOpen = () => setOpen(true);
