@@ -15,6 +15,32 @@ const style = {
 	overflowY: 'scroll'
 };
 
+const fields = [
+	{
+		id: "id",
+		label: "Артикул",
+		name: "id",
+		placeholder: "Введите артикул"
+	},
+	{
+		id: "colorHex",
+		label: "Цвет",
+		name: "colorHex",
+		placeholder: "Введите цвет в hex"
+	},
+	{
+		id: "colorName",
+		label: "Название цвета",
+		name: "colorName",
+		placeholder: "Введите название цвета"
+	},
+	{
+		id: "img",
+		label: "Изображение",
+		name: "img",
+		placeholder: "Вставьте ссылку на изображение"
+	}
+];
 
 export const ColorAddForm = ({ addColor }) => {
   	const [open, setOpen] = useState(false);
@@ -45,55 +71,23 @@ export const ColorAddForm = ({ addColor }) => {
         onClose={handleClose}
       >
         <Box sx={style}>
-		<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 0 }} >
-				<TextField 
-					id="id" 
-					label="Артикул"
-					name="id"
-					type="text"
-					placeholder="Введите артикул"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.id}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="colorHex"
-					label="Цвет"
-					name="colorHex"
-					type="text"
-					placeholder="Введите цвет в hex"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.color}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="colorName" 
-					label="Название"
-					name="colorName"
-					type="text"
-					placeholder="Название"
-					variant="outlined" 
-					margin="normal"
-					sx={{ width: '100%' }}
-					value={form.name}
-					onChange={changeHandler}
-				/>
-				<TextField 
-					id="img"
-					label="Изображение"
-					name="img"
-					type="text"
-					placeholder="Вставьте ссылку на изображение"
-					variant="outlined" 
-					margin="normal" 
-					sx={{ width: '100%' }}
-					value={form.img}
-					onChange={changeHandler}
-				/>
+			<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 0 }} >
+			{
+				fields.map((item) => (
+					<TextField 
+						id={item.id}
+						label={item.label}
+						name={item.name}
+						placeholder={item.placeholder}
+						type="text"
+						variant="outlined" 
+						margin="normal"
+						sx={{ width: '100%' }}
+						value={form[item.name]}
+						onChange={changeHandler}
+					/>
+				))
+			}
 			</Container>
 			<Container 
 				sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '15px', padding: 0 }} 

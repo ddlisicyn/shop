@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useRoutes } from './routes';
-import { useAuth } from './hooks/auth.hook';
-import { useCart } from './hooks/cart.hook';
-import { useProducts } from './hooks/products.hook';
+import { useAuth } from './hooks/useAuth';
+import { useCart } from './hooks/useCart';
+import { useProducts } from './hooks/useProducts';
 import { Context } from './context/Context';
 import { Navbar } from './components/Navbar';
 

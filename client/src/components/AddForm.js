@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../context/Context';
-import { useHttp } from '../hooks/http.hook';
+import { useHttp } from '../hooks/useHttp';
 import { Container, TextField, Button, Box, IconButton, Modal, MenuItem, ListItem }  from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { ColorAddForm } from './ColorAddForm';
@@ -89,7 +89,7 @@ const fields = [
 
 export const AddForm = () => {
 	const { loading,  request } = useHttp();
-	const auth = useContext(Context);
+	const context = useContext(Context);
 	const navigate = useNavigate();
   	const [open, setOpen] = useState(false);
 	const [form, setForm] = useState({ 
@@ -128,7 +128,7 @@ export const AddForm = () => {
 
 	const addProductHandler = async () => {
 		try {
-			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${auth.token}` });
+			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${context.token}` });
 			handleClose();
 			setForm({ 
 				id: '', 
@@ -173,7 +173,6 @@ export const AddForm = () => {
 						sx={{ width: '100%' }}
 						value={form[item.name]}
 						onChange={changeHandler}
-						// {...item}
 					/>
 				))
 			}

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Container, TextField, Button, Snackbar, Alert }  from '@mui/material';
-import { useHttp } from '../hooks/http.hook';
+import { useHttp } from '../hooks/useHttp';
 import { Context } from '../context/Context';
 
 export const AdminPage = () => {
-	const auth = useContext(Context);
+	const context = useContext(Context);
 	const { loading, /* error, */ request } = useHttp();
 	const [form, setForm] = useState({ email: '', password: '' });
 	/* const [alert, setAlert] = useState(false); */
@@ -23,7 +23,7 @@ export const AdminPage = () => {
 	const loginHandler = async () => {
 		try {
 			const data = await request('/api/admin/login', 'POST', { ...form });
-			auth.login(data.token, data.userId);
+			context.login(data.token, data.userId);
 		} catch (e) {}
 	}
 

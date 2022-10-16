@@ -6,7 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 export const CartProduct = ({ cartProduct }) => {
-	const cart = useContext(Context);
+	const context = useContext(Context);
 	const id = cartProduct[0];
 	const product = cartProduct[1];
 	const [amount, setAmount] = useState(cartProduct[1].amount);
@@ -15,17 +15,17 @@ export const CartProduct = ({ cartProduct }) => {
 	const handleRemove = () => {
 		let newStateOfAmount = amount - 1;
 		setAmount(newStateOfAmount);
-		cart.removeProduct(id);
+		context.removeProduct(id);
 	}
 
 	const handleAdd = () => {
 		let newStateOfAmount = amount + 1;
 		setAmount(newStateOfAmount);
-		cart.addProduct(id);
+		context.addProduct(id);
 	}
 
 	const handleDelete = () => {
-		cart.deleteProduct(id);
+		context.deleteProduct(id);
 		setShow(false);
 	}
 

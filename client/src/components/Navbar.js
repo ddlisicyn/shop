@@ -77,10 +77,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
-	const auth = useContext(Context);
-	const cart = useContext(Context);
-	const products = useContext(Context);
-	const [open, setOpen] = React.useState(false);
+	const context = useContext(Context);
+	const [open, setOpen] = useState(false);
 	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
 
 	const handleDrawerOpen = () => setOpen(true);
@@ -88,8 +86,8 @@ export const Navbar = ({ isAuthenticated }) => {
 	const handleDrawerClose = () => setOpen(false);
 
 	const handleHomeButton = () => {
-		products.handleSearch('');
-		products.handleCategory('all');		
+		context.handleSearch('');
+		context.handleCategory('all');		
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
@@ -99,19 +97,19 @@ export const Navbar = ({ isAuthenticated }) => {
 
 	const logoutHandler = (event) => {
 		event.preventDefault()
-		auth.logout()
+		context.logout()
 		navigate('/admin')
 	}
 
 	useEffect(() => {
 		let amount = 0;
 
-		for (let key in cart.products) {
-			amount += +cart.products[key].amount;
+		for (let key in context.products) {
+			amount += +context.products[key].amount;
 		}
 
 		setAmountOfProductsInCart(amount);
-	}, [cart.products]);
+	}, [context.products]);
 
 	return (
 		<Box sx={{ display: 'flex', marginBottom: '20px' }}>
@@ -188,8 +186,8 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									products.handleSearch('');
-									products.handleCategory(category.name);		
+									context.handleSearch('');
+									context.handleCategory(category.name);		
 									window.scrollTo({
 										top: 0,
 										behavior: 'smooth'

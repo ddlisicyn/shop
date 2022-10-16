@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { getDataFromLocalStorage, setDataToLocalStorage } from '../utils/localStorageUtils';
 
 const storageName = 'userCart';
 
@@ -7,9 +8,9 @@ export const useCart = () => {
 	const [totalPrice, setTotalPrice] = useState(0);
 
 	const addProduct = useCallback((id, price, discountPrice, name, img, colorName, colorHex) => {
-		let data = JSON.parse(localStorage.getItem(storageName));
+		let data = getDataFromLocalStorage(storageName);
 
-		if (data === null) {
+		if (data === null || data === undefined) {
 			data = {};
 		}
 
@@ -29,27 +30,27 @@ export const useCart = () => {
 
 		setProducts(data);
 
-		localStorage.setItem(storageName, JSON.stringify(data));
+		setDataToLocalStorage(storageName, data);
 	}, []);
 
 	const removeProduct = useCallback((id) => {
-		const data = JSON.parse(localStorage.getItem(storageName));
+		const data = getDataFromLocalStorage(storageName);
 
 		data[id].amount--;
 
 		setProducts(data);
 
-		localStorage.setItem(storageName, JSON.stringify(data));
+		setDataToLocalStorage(storageName, data);
 	}, []);
 
 	const deleteProduct = useCallback((id) => {
-		const data = JSON.parse(localStorage.getItem(storageName));
+		const data = getDataFromLocalStorage(storageName);
 		
 		delete data[id];
 
 		setProducts(data);
 
-		localStorage.setItem(storageName, JSON.stringify(data));
+		setDataToLocalStorage(storageName, data);
 	}, []);
 
 	const deleteAll = useCallback(() => {
@@ -58,17 +59,17 @@ export const useCart = () => {
 	}, []);
 
 	const setAmount = useCallback((id, amount) => {
-		const data = JSON.parse(localStorage.getItem(storageName));
+		const data = getDataFromLocalStorage(storageName);
 		
 		data[id].amount = amount;
 
 		setProducts(data);
 
-		localStorage.setItem(storageName, JSON.stringify(data));
+		setDataToLocalStorage(storageName, data);
 	}, []);
 
 	const getTotalPrice = useCallback(() => {
-		const data = JSON.parse(localStorage.getItem(storageName));
+		const data = getDataFromLocalStorage(storageName);
 		let totalPrice = 0;
 
 		for (let key in data) {
@@ -83,13 +84,12 @@ export const useCart = () => {
 	}, [products, getTotalPrice]);
 
 	useEffect(() => {
-		const data = JSON.parse(localStorage.getItem(storageName));
+		const data = getDataFromLocalStorage(storageName);
 
 		if (!!data) {
 			setProducts(data);
 		}
 	}, []);
-
 
 	return { addProduct, removeProduct, deleteProduct, deleteAll, setAmount, products, totalPrice }
 };
