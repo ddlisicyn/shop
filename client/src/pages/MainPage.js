@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useContext } from 'react';
 import { Context } from '../context/Context';
-import { useHttp } from '../hooks/http.hook';
+import { useHttp } from '../hooks/useHttp';
 import { Grid, Container, Typography } from '@mui/material';
 import { ThumbnailCard } from '../components/ThumbnailCard';
 import { Loader } from '../components/Loader';

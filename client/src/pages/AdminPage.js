@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Container, TextField, Button, Snackbar, Alert }  from '@mui/material';
-import { useHttp } from '../hooks/http.hook';
+import { useHttp } from '../hooks/useHttp';
 import { Context } from '../context/Context';
 
 export const AdminPage = () => {
