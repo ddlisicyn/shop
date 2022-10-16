@@ -173,7 +173,6 @@ export const AddForm = () => {
 						sx={{ width: '100%' }}
 						value={form[item.name]}
 						onChange={changeHandler}
-						// {...item}
 					/>
 				))
 			}

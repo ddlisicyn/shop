@@ -78,7 +78,6 @@ export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const context = useContext(Context);
-	const products = useContext(Context);
 	const [open, setOpen] = React.useState(false);
 	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
 
@@ -87,8 +86,8 @@ export const Navbar = ({ isAuthenticated }) => {
 	const handleDrawerClose = () => setOpen(false);
 
 	const handleHomeButton = () => {
-		products.handleSearch('');
-		products.handleCategory('all');		
+		context.handleSearch('');
+		context.handleCategory('all');		
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
@@ -187,8 +186,8 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									products.handleSearch('');
-									products.handleCategory(category.name);		
+									context.handleSearch('');
+									context.handleCategory(category.name);		
 									window.scrollTo({
 										top: 0,
 										behavior: 'smooth'
