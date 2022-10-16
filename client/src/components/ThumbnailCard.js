@@ -5,7 +5,7 @@ import { Context } from '../context/Context';
 
 export const ThumbnailCard = ({ product }) => {
 	const [alert, setAlert] = useState(false);
-	const cart = useContext(Context);
+	const context = useContext(Context);
 	const navigate = useNavigate();
 	const { id, name, img, price, discountPrice, colors } = product;
 	const [image, setImage] = useState(img);
@@ -19,9 +19,9 @@ export const ThumbnailCard = ({ product }) => {
 		try {
 			if (colors && Object.keys(colors).length) {
 				const { colorHex, colorName } = colors.filter(color => color.id === Number(colorId))[0];
-				cart.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
+				context.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
 			} else {
-				cart.addProduct(id, price, discountPrice, name, image);
+				context.addProduct(id, price, discountPrice, name, image);
 			}
 
 			handleOpen();

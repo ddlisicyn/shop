@@ -89,7 +89,7 @@ const fields = [
 
 export const AddForm = () => {
 	const { loading,  request } = useHttp();
-	const auth = useContext(Context);
+	const context = useContext(Context);
 	const navigate = useNavigate();
   	const [open, setOpen] = useState(false);
 	const [form, setForm] = useState({ 
@@ -128,7 +128,7 @@ export const AddForm = () => {
 
 	const addProductHandler = async () => {
 		try {
-			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${auth.token}` });
+			await request('/api/redactor/generate', 'POST', { ...form }, { Authorization: `Bearer ${context.token}` });
 			handleClose();
 			setForm({ 
 				id: '', 

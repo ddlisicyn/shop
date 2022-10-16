@@ -8,16 +8,16 @@ export const ProductCard = ({ product }) => {
 	const { id, name, description, img, colors, capacity, price, discountPrice } = product;
 	const [image, setImage] = useState(img);
 	const [colorId, setColorId] = useState(Number(id));
-	const cart = useContext(Context);
+	const context = useContext(Context);
 	const formatted = description.split('\n').map(elem => <p key={shortid.generate()}>{elem}</p>);
 
 	const handleClickAddProduct = () => {
 		try {
 			if (colors && Object.keys(colors).length) {
 				const { colorHex, colorName } = colors.filter(color => color.id === Number(colorId))[0];
-				cart.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
+				context.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
 			} else {
-				cart.addProduct(id, price, discountPrice, name, image);
+				context.addProduct(id, price, discountPrice, name, image);
 			}
 			
 			handleOpen();

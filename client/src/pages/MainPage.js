@@ -6,7 +6,7 @@ import { ThumbnailCard } from '../components/ThumbnailCard';
 import { Loader } from '../components/Loader';
 
 export const MainPage = () => {
-	const products = useContext(Context);
+	const context = useContext(Context);
 	const [allProducts, setAllProducts] = useState([]);
 	const [filteredProducts, setFilteredProducts] = useState([]);
 	const { loading, request } = useHttp();
@@ -24,8 +24,8 @@ export const MainPage = () => {
 	}, [getProduct]);
 
 	useEffect(() => {
-		const category = products.category;
-		const search = products.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
+		const category = context.category;
+		const search = context.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
 
 		if (search === '') {
 			if (category === 'all') {
@@ -45,7 +45,7 @@ export const MainPage = () => {
 			}));
 		}
 
-	}, [products.category, products.search, allProducts]);
+	}, [context.category, context.search, allProducts]);
 
 	if (loading) {
 		return <Loader />

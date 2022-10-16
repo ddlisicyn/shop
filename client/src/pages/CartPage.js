@@ -7,12 +7,12 @@ import { OrderForm } from '../components/OrderForm';
 export const CartPage = () => {
 	const [cartProducts, setCartProducts] = useState({});
 	const [totalPrice, setTotalPrice] = useState(0);
-	const cart = useContext(Context);
+	const context = useContext(Context);
 
 	useEffect(() => {
-		setCartProducts(cart.products);
-		setTotalPrice(cart.totalPrice);
-	}, [cart]);
+		setCartProducts(context.products);
+		setTotalPrice(context.totalPrice);
+	}, [context]);
 
 	return (
 		<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >

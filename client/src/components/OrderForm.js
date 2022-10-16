@@ -19,8 +19,7 @@ const style = {
 
 export const OrderForm = () => {
 	const envProcces = process.env.NODE_ENV;
-	const cart = useContext(Context);
-	const products = useContext(Context);
+	const context = useContext(Context);
 	const { loading, error, clearError, request } = useHttp();
 	const navigate = useNavigate();
   	const [open, setOpen] = useState(false);
@@ -39,7 +38,7 @@ export const OrderForm = () => {
 
 	const handleCloseSuccessModal = () => {
 		setOpenSuccessModal(false);
-		products.handleCategory('all');
+		context.handleCategory('all');
 		navigate('/');
 	}
 
@@ -69,9 +68,9 @@ export const OrderForm = () => {
 			Комментарий к заказу: ${form.description ? form.description : 'Клиент не оставил комментарий'}${newLine}${newLine}
 			Заказ:${newLine}`;
 		try {
-			for (let key in cart.products) {
+			for (let key in context.products) {
 				const id = key;
-				const { name, amount, discountPrice } = cart.products[key];
+				const { name, amount, discountPrice } = context.products[key];
 
 				text += `• ${name.replace('&', '%26')}${newLine}
 					Артикул: ${id}${newLine}
@@ -82,10 +81,10 @@ export const OrderForm = () => {
 
 			console.log(text);
 
-			text += `${newLine}Конечная стоимость: ${cart.totalPrice}`;
+			text += `${newLine}Конечная стоимость: ${context.totalPrice}`;
 
 			await request(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${text}`, 'POST');
-			cart.deleteAll();
+			context.deleteAll();
 			handleClose();
 			setOpenSuccessModal(true);
 		} catch (e) {
@@ -126,7 +125,7 @@ export const OrderForm = () => {
 			variant="contained" 
 			sx={{ width: '170px', marginTop: '20px' }} 
 			onClick={handleOpen}
-			disabled={!(cart.products && !!Object.keys(cart.products).length)}
+			disabled={!(context.products && !!Object.keys(context.products).length)}
 		>
 			Оформить заказ
 		</Button>

@@ -77,8 +77,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
-	const auth = useContext(Context);
-	const cart = useContext(Context);
+	const context = useContext(Context);
 	const products = useContext(Context);
 	const [open, setOpen] = React.useState(false);
 	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
@@ -99,19 +98,19 @@ export const Navbar = ({ isAuthenticated }) => {
 
 	const logoutHandler = (event) => {
 		event.preventDefault()
-		auth.logout()
+		context.logout()
 		navigate('/admin')
 	}
 
 	useEffect(() => {
 		let amount = 0;
 
-		for (let key in cart.products) {
-			amount += +cart.products[key].amount;
+		for (let key in context.products) {
+			amount += +context.products[key].amount;
 		}
 
 		setAmountOfProductsInCart(amount);
-	}, [cart.products]);
+	}, [context.products]);
 
 	return (
 		<Box sx={{ display: 'flex', marginBottom: '20px' }}>
