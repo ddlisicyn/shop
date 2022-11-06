@@ -4,12 +4,17 @@ import { useHttp } from '../hooks/useHttp';
 import { Grid, Container, Typography } from '@mui/material';
 import { ThumbnailCard } from '../components/ThumbnailCard';
 import { Loader } from '../components/Loader';
+import Pagination from '@mui/material/Pagination';
+import { paginatedProducts } from '../utils/paginationUtils';
 
 export const MainPage = () => {
 	const context = useContext(Context);
+	const { loading, request } = useHttp();
 	const [allProducts, setAllProducts] = useState([]);
 	const [filteredProducts, setFilteredProducts] = useState([]);
-	const { loading, request } = useHttp();
+	const [displayedProducts, setDisplayedProducts] = useState([[]]);
+	const [page, setPage] = useState(1);
+	const amountOfItemsDisplayedOnPage = 15;
 
 	const getProduct = useCallback(async () => {
 		try {
@@ -26,6 +31,8 @@ export const MainPage = () => {
 	useEffect(() => {
 		const category = context.category;
 		const search = context.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
+
+		setPage(1);
 
 		if (search === '') {
 			if (category === 'all') {
@@ -47,6 +54,18 @@ export const MainPage = () => {
 
 	}, [context.category, context.search, allProducts]);
 
+	useEffect(() => {
+		setDisplayedProducts(paginatedProducts(amountOfItemsDisplayedOnPage, filteredProducts));
+	}, [filteredProducts])
+
+	const handlePageChange = (event, value) => {
+		setPage(value);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	}
+
 	if (loading) {
 		return <Loader />
 	}
@@ -57,7 +76,9 @@ export const MainPage = () => {
 				Всего {filteredProducts.length === 1 ? <>найден {filteredProducts.length} товар</> : 
 				<>
 					{
-						filteredProducts.length <= 4 && filteredProducts.length > 0 ? <>найдено {filteredProducts.length} товара</> : <>найдено {filteredProducts.length} товаров</>
+						filteredProducts.length <= 4 && filteredProducts.length > 0 ? 
+						<>найдено {filteredProducts.length} товара</> : 
+						<>найдено {filteredProducts.length} товаров</>
 					}
 				</>
 				}
@@ -68,8 +89,8 @@ export const MainPage = () => {
 				columns={{ xs: 12, sm: 8, md: 6 }}
 			>
 				{
-					filteredProducts.length ?  
-					filteredProducts.map((product) => (
+					displayedProducts[page - 1]?.length ?  
+					displayedProducts[page - 1].map((product) => (
 						<Grid item xs={12} sm={4} md={2} key={product.id}>
 							<ThumbnailCard product={product} />
 						</Grid>
@@ -77,6 +98,14 @@ export const MainPage = () => {
 					<></>
 				}
 			</Grid>
+			<Pagination
+				className="main-pagination"
+				count={displayedProducts.length}
+				boundaryCount={0} 
+				page={page} 
+				color="primary" 
+				onChange={handlePageChange}
+			/>
 		</Container>
 	)
 };

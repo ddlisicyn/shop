@@ -41,7 +41,7 @@ export const ThumbnailCard = ({ product }) => {
 	}
 
 	return (
-		<Container>
+		<Container sx={{ padding: '0px !important' }} >
 			<Fade in={alert}>
 				<Alert 
 					severity="info" 
@@ -87,10 +87,10 @@ export const ThumbnailCard = ({ product }) => {
 						<FormControl>
 							<InputLabel>Цвет</InputLabel>
 							<Select
-							className="thumbnail-card__color-select"
-							value={colorId}
-							label="Цвет"
-							onChange={handleChange}
+								className="thumbnail-card__color-select"
+								value={colorId}
+								label="Цвет"
+								onChange={handleChange}
 							>
 								{
 									colors.map((color) => (
