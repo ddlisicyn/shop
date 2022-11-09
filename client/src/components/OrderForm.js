@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
-import { Container, TextField, Button, Box, Modal, Fade, Alert, Typography }  from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { formatPhoneNumber, formatSurnameAndName } from '../utils/orderFormUtils';
+import { Container, TextField, Button, Box, Modal, Fade, Alert }  from '@mui/material';
+import { SuccessOrderMessage } from './SuccessOrderMessage';
 
 const style = {
 	position: 'absolute',
@@ -79,8 +80,6 @@ export const OrderForm = () => {
 
 			}
 
-			console.log(text);
-
 			text += `${newLine}Конечная стоимость: ${context.totalPrice}`;
 
 			await request(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${text}`, 'POST');
@@ -92,32 +91,9 @@ export const OrderForm = () => {
 		}
 	}
 
-	function formatSurnameAndName(value) {
-		return value.replace(/\d+/g, '');
-	}
-
-	function formatPhoneNumber(value) {
-		if (!value) return value;
-	  
-		const phoneNumber = value.replace(/[^\d]/g, '');
-	  
-		const phoneNumberLength = phoneNumber.length;
-	  
-		if (phoneNumberLength <= 3) return `(${phoneNumber})`;
-
-		if (phoneNumberLength <= 6) {
-		  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-		}
-	  
-		return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-		  3,
-		  6
-		)}-${phoneNumber.slice(6, 10)}`;
-	  }
-
-	  useEffect(() => {
-		  setStatus(/\(\d{3}\)\s\d{3}-\d{2}\d{2}$/.test(form.telephone));
-	  }, [form.telephone]);
+	useEffect(() => {
+		setStatus(/\(\d{3}\)\s\d{3}-\d{2}\d{2}$/.test(form.telephone));
+	}, [form.telephone]);
 
   return (
     <div>
@@ -218,17 +194,7 @@ export const OrderForm = () => {
         onClose={handleCloseSuccessModal}
       	>
 			<Box sx={style}>
-				<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-					<CloseIcon sx={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer' }} onClick={handleCloseSuccessModal} />
-					<Typography variant="h4" gutterBottom textAlign="center">Спасибо!</Typography>
-					<div className="svg-container">    
-						<svg className="ft-green-tick" xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 48 48" aria-hidden="true">
-							<circle className="circle" fill="#5bb543" cx="24" cy="24" r="22"/>
-							<path className="tick" fill="none" stroke="#FFF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" d="M14 27l5.917 4.917L34 17"/>
-						</svg>
-					</div>
-					<Typography variant="body1" gutterBottom mt="15px" textAlign="justify">Мы приняли ваш заказ и свяжемся с Вами в течение 24 часов по указанному номеру телефона.</Typography>
-				</Container>
+				<SuccessOrderMessage handleCloseSuccessModal={handleCloseSuccessModal} />
 			</Box>
 		</Modal>
 		<Fade in={error}>

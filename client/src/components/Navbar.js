@@ -85,13 +85,13 @@ export const Navbar = ({ isAuthenticated }) => {
 
 	const handleDrawerClose = () => setOpen(false);
 
-	const handleHomeButton = () => {
-		context.handleSearch('');
-		context.handleCategory('all');		
+	const handleHomeButton = () => {		
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth'
-		});		
+		});
+		context.handleSearch('');
+		context.handleCategory('all');
 		navigate('/');
 	}
 

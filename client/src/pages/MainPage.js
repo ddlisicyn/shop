@@ -59,11 +59,11 @@ export const MainPage = () => {
 	}, [filteredProducts])
 
 	const handlePageChange = (event, value) => {
-		setPage(value);
 		window.scrollTo({
 			top: 0,
 			behavior: 'smooth',
 		});
+		setPage(value);
 	}
 
 	if (loading) {

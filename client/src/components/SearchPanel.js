@@ -123,31 +123,31 @@ export const SearchPanel = () => {
 					horizontal: 'left',
 				}}
 				sx={{
-					maxHeight: '100vh',
-					overflow: 'hidden',
+					maxHeight: '95vh',
+					overflow: 'scroll',
 					background: '#fff', 
 					zIndex: 9999,
 					borderRadius: '5px'
 				}}
 			>
-			<List sx={{ width: '100%', maxWidth: 414, bgcolor: 'background.paper' }} ref={wrapperRef}>
-				{
-					filteredProducts.map((product) => (
-						<Box key={product.id} onClick={() => {					
-							navigate(`/detail/${product.id}`);
-							setValue('');
-						}}
-						>
-							<ListItem sx={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
-								<img style={{ width: '50px' }} src={product.img} alt={product.name}/>
-								<Typography sx={{ p: 0, width: '100%', marginLeft: '5px' }}>{product.name}</Typography>
-							</ListItem>
-							<Divider />
-						</Box>
-					))
-				}
-			</List>
-		</Popper>
-	  </Container>
+				<List sx={{ width: '100%', maxWidth: 414, bgcolor: 'background.paper' }} ref={wrapperRef}>
+					{
+						filteredProducts.map((product) => (
+							<Box key={product.id} onClick={() => {					
+								navigate(`/detail/${product.id}`);
+								setValue('');
+							}}
+							>
+								<ListItem sx={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
+									<img style={{ width: '50px' }} src={product.img} alt={product.name}/>
+									<Typography sx={{ p: 0, width: '100%', marginLeft: '5px' }}>{product.name}</Typography>
+								</ListItem>
+								<Divider />
+							</Box>
+						))
+					}
+				</List>
+			</Popper>
+	  	</Container>
 	  );
 };
