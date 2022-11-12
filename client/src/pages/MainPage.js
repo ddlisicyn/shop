@@ -1,6 +1,7 @@
-import React, { useCallback, useState, useEffect, useContext } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import { Context } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
+import { useQuery } from '@tanstack/react-query';
 import { Grid, Container, Typography } from '@mui/material';
 import { ThumbnailCard } from '../components/ThumbnailCard';
 import { Loader } from '../components/Loader';
@@ -9,39 +10,33 @@ import { paginatedProducts } from '../utils/paginationUtils';
 
 export const MainPage = () => {
 	const context = useContext(Context);
-	const { loading, request } = useHttp();
-	const [allProducts, setAllProducts] = useState([]);
-	const [filteredProducts, setFilteredProducts] = useState([]);
-	const [displayedProducts, setDisplayedProducts] = useState([[]]);
+	const { request } = useHttp();
 	const [page, setPage] = useState(1);
 	const amountOfItemsDisplayedOnPage = 15;
+	let filteredProducts = [];
+	let displayedProducts = [];
 
 	const getProduct = useCallback(async () => {
 		try {
-			const fetched =  await request(`/api/`, 'GET', null);
-			setAllProducts(fetched);
-			setFilteredProducts(fetched);
+			const fetched = await request(`/api/`, 'GET', null);
+			return fetched;
 		} catch(e) {}
 	}, [request]);
 
-	useEffect(() => {
-		getProduct();
-	}, [getProduct]);
+	const { status, data, error, isFetching } = useQuery({ queryKey: ['products'], queryFn: getProduct });
 
-	useEffect(() => {
+	if (status === 'success') {
 		const category = context.category;
 		const search = context.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
-
-		setPage(1);
-
+	
 		if (search === '') {
 			if (category === 'all') {
-				setFilteredProducts(allProducts);
+				filteredProducts = data;
 			} else {
-				setFilteredProducts(allProducts.filter(product => product.category === category));
+				filteredProducts = data.filter(product => product.category === category);
 			}
 		} else {
-			setFilteredProducts(allProducts.filter(product => {
+			filteredProducts = data.filter(product => {
 				const name = product.name.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
 	
 				if (!name.includes(search)) {
@@ -49,14 +44,11 @@ export const MainPage = () => {
 				}
 	
 				return product
-			}));
+			});
 		}
-
-	}, [context.category, context.search, allProducts]);
-
-	useEffect(() => {
-		setDisplayedProducts(paginatedProducts(amountOfItemsDisplayedOnPage, filteredProducts));
-	}, [filteredProducts])
+	
+		displayedProducts = paginatedProducts(amountOfItemsDisplayedOnPage, filteredProducts);
+	}
 
 	const handlePageChange = (event, value) => {
 		setPage(value);
@@ -66,19 +58,19 @@ export const MainPage = () => {
 		});
 	}
 
-	if (loading) {
+	if (status === 'loading') {
 		return <Loader />
 	}
 
 	return (
 		<Container>
 			<Typography gutterBottom variant="subtitle2">
-				Всего {filteredProducts.length === 1 ? <>найден {filteredProducts.length} товар</> : 
+				Всего {filteredProducts?.length === 1 ? <>найден {filteredProducts?.length} товар</> : 
 				<>
 					{
-						filteredProducts.length <= 4 && filteredProducts.length > 0 ? 
-						<>найдено {filteredProducts.length} товара</> : 
-						<>найдено {filteredProducts.length} товаров</>
+						filteredProducts?.length <= 4 && filteredProducts?.length > 0 ? 
+						<>найдено {filteredProducts?.length} товара</> : 
+						<>найдено {filteredProducts?.length} товаров</>
 					}
 				</>
 				}
