@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../context/Context';
 import { CartProduct } from '../components/CartProduct';
 import { Grid, Container, Box, Typography } from '@mui/material';
-import { OrderForm } from '../components/OrderForm';
+import { OrderForm } from './OrderForm';
 
 export const CartPage = () => {
 	const [cartProducts, setCartProducts] = useState({});

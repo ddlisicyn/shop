@@ -1,6 +1,6 @@
 import { useState, useCallback} from 'react';
 
-export const useProducts = () => {
+export const useCategoryAndSearch = () => {
 	const [category, setCategory] = useState('all');
 	const [search, setSearch] = useState('');
 

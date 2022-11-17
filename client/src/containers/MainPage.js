@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useContext } from 'react';
-import { Context } from '../context/Context';
+import { CategoryAndSearchContext } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
 import { useQuery } from '@tanstack/react-query';
 import { Grid, Container, Typography } from '@mui/material';
@@ -7,46 +7,31 @@ import { ThumbnailCard } from '../components/ThumbnailCard';
 import { Loader } from '../components/Loader';
 import Pagination from '@mui/material/Pagination';
 import { paginatedProducts } from '../utils/paginationUtils';
+import { getFilteredProducts, searchCleaner } from '../utils/filteringProductsUtils';
+import { AmountOfProductsDisplayer } from '../components/AmountOfProductsDisplayer';
 
 export const MainPage = () => {
-	const context = useContext(Context);
-	const { request } = useHttp();
-	const [page, setPage] = useState(1);
+	const categoryAndSearchContext = useContext(CategoryAndSearchContext);
+	const category = categoryAndSearchContext.category;
+	const search = searchCleaner(categoryAndSearchContext.search);
 	const amountOfItemsDisplayedOnPage = 15;
 	let filteredProducts = [];
 	let displayedProducts = [];
+	const { request } = useHttp();
+	const [page, setPage] = useState(1);
 
 	const getProduct = useCallback(async () => {
 		try {
-			const fetched = await request(`/api/`, 'GET', null);
-			return fetched;
-		} catch(e) {}
+			return await request(`/api/`, 'GET', null);
+		} catch(e) {
+			console.log(e.message);
+		}
 	}, [request]);
 
 	const { status, data, error, isFetching } = useQuery({ queryKey: ['products'], queryFn: getProduct });
 
 	if (status === 'success') {
-		const category = context.category;
-		const search = context.search.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
-	
-		if (search === '') {
-			if (category === 'all') {
-				filteredProducts = data;
-			} else {
-				filteredProducts = data.filter(product => product.category === category);
-			}
-		} else {
-			filteredProducts = data.filter(product => {
-				const name = product.name.toLowerCase().replace(/[^a-zа-я0-9\s]+/g, '');
-	
-				if (!name.includes(search)) {
-					return
-				}
-	
-				return product
-			});
-		}
-	
+		filteredProducts = getFilteredProducts(category, search, data);
 		displayedProducts = paginatedProducts(amountOfItemsDisplayedOnPage, filteredProducts);
 	}
 
@@ -64,17 +49,10 @@ export const MainPage = () => {
 
 	return (
 		<Container>
-			<Typography gutterBottom variant="subtitle2">
-				Всего {filteredProducts?.length === 1 ? <>найден {filteredProducts?.length} товар</> : 
-				<>
-					{
-						filteredProducts?.length <= 4 && filteredProducts?.length > 0 ? 
-						<>найдено {filteredProducts?.length} товара</> : 
-						<>найдено {filteredProducts?.length} товаров</>
-					}
-				</>
-				}
+			<Typography gutterBottom textAlign="center" variant="h6">
+				{category === 'all' ? 'Весь каталог' : category}
 			</Typography>
+			<AmountOfProductsDisplayer filteredProducts={filteredProducts} />
 			<Grid
 				container
 				spacing={{ xs: 2, sm: 3, md: 4 }}

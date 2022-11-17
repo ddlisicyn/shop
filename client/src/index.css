@@ -10,7 +10,7 @@ body {
 .main {
   display: flex;
   justify-content: center;
-  margin: 80px 5% 50px;
+  margin: 65px 5% 50px;
 }
 
 .cart-item { 

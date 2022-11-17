@@ -2,6 +2,13 @@ import { createContext } from 'react';
 
 function noop() {}
 
+export const CategoryAndSearchContext = createContext({
+	category: 'all',
+	search: '',
+	handleCategory: noop,
+	handleSearch: noop
+});
+
 export const Context = createContext({
 	token: null,
 	userId: null,
@@ -15,9 +22,5 @@ export const Context = createContext({
 	deleteAll: noop,
 	totalPrice: 0,
 	setAmount: noop,
-	category: 'all',
-	search: '',
-	allProducts: [],
-	handleCategory: noop,
-	handleSearch: noop
+	allProducts: []
 });

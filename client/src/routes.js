@@ -1,15 +1,15 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { MainPage } from './pages/MainPage';
-import { CartPage } from './pages/CartPage';
-import { AdminPage } from './pages/AdminPage';
-import { RedactorPage } from './pages/RedactorPage';
-import { DetailPage } from './pages/DetailPage';
+import { MainPage } from './containers/MainPage';
+import { CartPage } from './containers/CartPage';
+import { AdminPage } from './containers/AdminPage';
+import { RedactorPage } from './containers/RedactorPage';
+import { DetailPage } from './containers/DetailPage';
 import { routes } from './constants';
 
 const { redactor, detail, core, cart, admin } = routes;
 
-export const useRoutes = isAuthenticated => {
+export const getRoutes = isAuthenticated => {
 	if (isAuthenticated) {
 		return (
 			<Routes>

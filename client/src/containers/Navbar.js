@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Context } from '../context/Context';
+import { CategoryAndSearchContext, Context } from '../context/Context';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -77,6 +77,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
+	const сategoryAndSearchContext = useContext(CategoryAndSearchContext);
 	const context = useContext(Context);
 	const [open, setOpen] = useState(false);
 	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
@@ -90,8 +91,8 @@ export const Navbar = ({ isAuthenticated }) => {
 			top: 0,
 			behavior: 'smooth'
 		});
-		context.handleSearch('');
-		context.handleCategory('all');
+		сategoryAndSearchContext.handleSearch('');
+		сategoryAndSearchContext.handleCategory('all');
 		navigate('/');
 	}
 
@@ -131,14 +132,13 @@ export const Navbar = ({ isAuthenticated }) => {
 							</IconButton>
 						}
 						{
-							isAuthenticated ? 
-							<></> : 
+							!isAuthenticated &&
 							<IconButton onClick={handleHomeButton} >
 								<HomeIcon sx={{ color: '#fff' }} />
 							</IconButton>
 						}
 						{
-							open ? <></> : <SearchPanel open={open}/>
+							!open && <SearchPanel open={open}/>
 						}
 					</div>
 					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -186,8 +186,8 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									context.handleSearch('');
-									context.handleCategory(category.name);		
+									сategoryAndSearchContext.handleSearch('');
+									сategoryAndSearchContext.handleCategory(category.name);		
 									window.scrollTo({
 										top: 0,
 										behavior: 'smooth'

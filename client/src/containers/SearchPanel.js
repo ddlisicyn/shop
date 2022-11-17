@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../hooks/useHttp';
-import { Context } from '../context/Context';
+import { CategoryAndSearchContext } from '../context/Context';
 import { Container, Box, List, Divider, ListItem, Paper, Popper, Typography } from '@mui/material/';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 export const SearchPanel = () => {
 	const wrapperRef = useRef(null);
 	const navigate = useNavigate();
-	const context = useContext(Context);
+	const categoryAndSearchContext = useContext(CategoryAndSearchContext);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [allProducts, setAllProducts] = useState([]);
@@ -81,7 +81,8 @@ export const SearchPanel = () => {
 			setValue('');
 			handleClose();
 			navigate('/');
-			context.handleSearch(value);
+			categoryAndSearchContext.handleSearch(value);
+			categoryAndSearchContext.handleCategory('all');
 		}
 	}
 
@@ -89,7 +90,8 @@ export const SearchPanel = () => {
 		setValue('');
 		handleClose();
 		navigate('/');
-		context.handleSearch(value);
+		categoryAndSearchContext.handleSearch(value);
+		categoryAndSearchContext.handleCategory('all');
 	}
 
 	const handleClose = () => setOpen(false);

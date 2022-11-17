@@ -4,7 +4,7 @@ import { Context } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
 import { formatPhoneNumber, formatSurnameAndName } from '../utils/orderFormUtils';
 import { Container, TextField, Button, Box, Modal, Fade, Alert }  from '@mui/material';
-import { SuccessOrderMessage } from './SuccessOrderMessage';
+import { SuccessOrderMessage } from '../components/SuccessOrderMessage';
 
 const style = {
 	position: 'absolute',
