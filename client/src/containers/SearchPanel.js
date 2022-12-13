@@ -1,17 +1,16 @@
 import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../hooks/useHttp';
-import { Context } from '../context/Context';
 import { Container, Box, List, Divider, ListItem, Paper, Popper, Typography } from '@mui/material/';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
+//TODO: сделать взаимодействие на react query
 
 export const SearchPanel = () => {
 	const wrapperRef = useRef(null);
 	const navigate = useNavigate();
-	const context = useContext(Context);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [allProducts, setAllProducts] = useState([]);
@@ -80,16 +79,15 @@ export const SearchPanel = () => {
 			event.preventDefault();
 			setValue('');
 			handleClose();
-			navigate('/');
-			context.handleSearch(value);
+			//TODO: { pathname: `/search`, search: `?text=${value}` }
+			navigate(`/search=${value}`);
 		}
 	}
 
 	const handleClickSearchButton = () => {
 		setValue('');
 		handleClose();
-		navigate('/');
-		context.handleSearch(value);
+		navigate(`/search=${value}`);
 	}
 
 	const handleClose = () => setOpen(false);
@@ -123,31 +121,31 @@ export const SearchPanel = () => {
 					horizontal: 'left',
 				}}
 				sx={{
-					maxHeight: '100vh',
-					overflow: 'hidden',
+					maxHeight: '95vh',
+					overflow: 'scroll',
 					background: '#fff', 
 					zIndex: 9999,
 					borderRadius: '5px'
 				}}
 			>
-			<List sx={{ width: '100%', maxWidth: 414, bgcolor: 'background.paper' }} ref={wrapperRef}>
-				{
-					filteredProducts.map((product) => (
-						<Box key={product.id} onClick={() => {					
-							navigate(`/detail/${product.id}`);
-							setValue('');
-						}}
-						>
-							<ListItem sx={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
-								<img style={{ width: '50px' }} src={product.img} alt={product.name}/>
-								<Typography sx={{ p: 0, width: '100%', marginLeft: '5px' }}>{product.name}</Typography>
-							</ListItem>
-							<Divider />
-						</Box>
-					))
-				}
-			</List>
-		</Popper>
-	  </Container>
+				<List sx={{ width: '100%', maxWidth: 414, bgcolor: 'background.paper' }} ref={wrapperRef}>
+					{
+						filteredProducts.map((product) => (
+							<Box key={product.id} onClick={() => {					
+								navigate(`/detail/${product.id}`);
+								setValue('');
+							}}
+							>
+								<ListItem sx={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
+									<img style={{ width: '50px' }} src={product.img} alt={product.name}/>
+									<Typography sx={{ p: 0, width: '100%', marginLeft: '5px' }}>{product.name}</Typography>
+								</ListItem>
+								<Divider />
+							</Box>
+						))
+					}
+				</List>
+			</Popper>
+	  	</Container>
 	  );
 };

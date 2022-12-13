@@ -4,8 +4,8 @@ import { Context } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
 import { Container, TextField, Button, Box, IconButton, Modal, MenuItem, ListItem }  from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { ColorAddForm } from './ColorAddForm';
-import { ListItemColor } from './ListItemColor';
+import { ColorAddForm } from '../components/ColorAddForm';
+import { ListItemColor } from '../components/ListItemColor';
 
 const style = {
 	position: 'absolute',

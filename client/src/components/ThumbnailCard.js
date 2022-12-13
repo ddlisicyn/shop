@@ -1,27 +1,33 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardMedia, Container, Box, Typography, CardActions, Button, Fade, Alert, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Context } from '../context/Context';
+import { Card, CardContent, CardMedia, Container, Box, 
+	Typography, CardActions, Button, Fade, Alert, FormControl, 
+	InputLabel, Select, MenuItem, Link } from '@mui/material';
+import { UserCartContext } from '../context/Context';
+
+//TODO: сделать что-то на подобие lazy img
 
 export const ThumbnailCard = ({ product }) => {
-	const [alert, setAlert] = useState(false);
-	const context = useContext(Context);
+	const userCartContext = useContext(UserCartContext);
 	const navigate = useNavigate();
-	const { id, name, img, price, discountPrice, colors } = product;
+	let { id, name, img, price, discountPrice, colors } = product;
+	const [alert, setAlert] = useState(false);
 	const [image, setImage] = useState(img);
 	const [colorId, setColorId] = useState(Number(id));
 
-	const handleClickDetail = () => {
+	const handleClickDetail = (event) => {
+		event.preventDefault();
 		navigate(`/detail/${id}`);
 	}
 
 	const handleClickAddProduct = () => {
 		try {
 			if (colors && Object.keys(colors).length) {
+				id = colorId;
 				const { colorHex, colorName } = colors.filter(color => color.id === Number(colorId))[0];
-				context.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
+				userCartContext.addProduct({id, price, discountPrice, name, image, colorName, colorHex});
 			} else {
-				context.addProduct(id, price, discountPrice, name, image);
+				userCartContext.addProduct({id, price, discountPrice, name, image});
 			}
 
 			handleOpen();
@@ -41,7 +47,7 @@ export const ThumbnailCard = ({ product }) => {
 	}
 
 	return (
-		<Container>
+		<Container sx={{ padding: '0px !important' }} >
 			<Fade in={alert}>
 				<Alert 
 					severity="info" 
@@ -52,28 +58,28 @@ export const ThumbnailCard = ({ product }) => {
 			</Fade>
 			<Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
 				<CardContent sx={{ width: '100%', padding: '16px 16px 4px 16px' }}>
-					<Box  onClick={handleClickDetail}>
+					<Link href={`/detail/${id}`} onClick={handleClickDetail}>
 						<CardMedia
 							component="img"
 							width="100%"
+							height="100%"
 							image={image}
 							alt={name}
 							sx={{ cursor: 'pointer' }}
 						/>
-					</Box>
+					</Link>
 					<Container className="thumbnailcard__description" sx={{ textAlign: 'center', padding: '0 !important' }} >
-						<Typography 
-							gutterBottom 
-							variant="subtitle1" 
-							component="div" 
-							className="thumbnailcard__description-name" 
-							sx={{ wordWrap: 'break-word', cursor: 'pointer' }}
-							onClick={handleClickDetail}
-						>
-						{
-							name
-						}
-						</Typography>
+						<Link href={`/detail/${id}`} underline="none" color="black" onClick={handleClickDetail}>
+							<Typography 
+								gutterBottom 
+								variant="subtitle1" 
+								component="div" 
+								className="thumbnailcard__description-name" 
+								sx={{ wordWrap: 'break-word', cursor: 'pointer' }}
+							>
+							{name}
+							</Typography>
+						</Link>
 						<Typography variant="subtitle2">
 							{discountPrice.toLocaleString('ru-RU')},00 ₽
 						</Typography>
@@ -87,10 +93,10 @@ export const ThumbnailCard = ({ product }) => {
 						<FormControl>
 							<InputLabel>Цвет</InputLabel>
 							<Select
-							className="thumbnail-card__color-select"
-							value={colorId}
-							label="Цвет"
-							onChange={handleChange}
+								className="thumbnail-card__color-select"
+								value={colorId}
+								label="Цвет"
+								onChange={handleChange}
 							>
 								{
 									colors.map((color) => (

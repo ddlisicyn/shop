@@ -1,23 +1,25 @@
 import React, { useContext, useState } from 'react';
 import { Container, Button, Typography, Fade, Alert, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Context } from '../context/Context';
+import { UserCartContext } from '../context/Context';
+
 const shortid = require('shortid');
 
 export const ProductCard = ({ product }) => {
+	const userCartContext = useContext(UserCartContext);
+	let { id, name, description, img, colors, capacity, price, discountPrice } = product;
 	const [alert, setAlert] = useState(false);
-	const { id, name, description, img, colors, capacity, price, discountPrice } = product;
 	const [image, setImage] = useState(img);
 	const [colorId, setColorId] = useState(Number(id));
-	const context = useContext(Context);
 	const formatted = description.split('\n').map(elem => <p key={shortid.generate()}>{elem}</p>);
 
 	const handleClickAddProduct = () => {
 		try {
 			if (colors && Object.keys(colors).length) {
+				id = colorId;
 				const { colorHex, colorName } = colors.filter(color => color.id === Number(colorId))[0];
-				context.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
+				userCartContext.addProduct({ id, price, discountPrice, name, image, colorName, colorHex });
 			} else {
-				context.addProduct(id, price, discountPrice, name, image);
+				userCartContext.addProduct({ id, price, discountPrice, name, image });
 			}
 			
 			handleOpen();

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { MainPage } from './pages/MainPage';
-import { CartPage } from './pages/CartPage';
-import { AdminPage } from './pages/AdminPage';
-import { RedactorPage } from './pages/RedactorPage';
-import { DetailPage } from './pages/DetailPage';
+import { MainPage } from './containers/MainPage';
+import { CartPage } from './containers/CartPage';
+import { AdminPage } from './containers/AdminPage';
+import { RedactorPage } from './containers/RedactorPage';
+import { DetailPage } from './containers/DetailPage';
 import { routes } from './constants';
 
 const { redactor, detail, core, cart, admin } = routes;
 
-export const useRoutes = isAuthenticated => {
+export const getRoutes = isAuthenticated => {
 	if (isAuthenticated) {
 		return (
 			<Routes>
@@ -25,18 +25,17 @@ export const useRoutes = isAuthenticated => {
 
 	return (
 		<Routes>
-			<Route path={core} exact element={ <MainPage /> }>
-			</Route>
-			<Route path={cart} exact element={ <CartPage /> }>
-			</Route>
-			<Route path={admin} exact element={ <AdminPage /> }>
-			</Route>
-			<Route path={`${detail}/:id`} exact element={ <DetailPage /> }>
-			</Route>
-			<Route path={redactor} element={<Navigate to={admin} />}>
-			</Route>
-			<Route path="*" element={<Navigate to={core} />}>
-			</Route>
+			<Route path={core} exact element={ <MainPage /> } />
+			<Route path={`${core}/:category`} exact element={ <MainPage /> } />
+			<Route path={`${core}/:category&page=:page`} exact element={ <MainPage /> } />
+			<Route path={`${core}/search`} element={ <MainPage /> } />
+			<Route path={`${core}/search=:search`} exact element={ <MainPage /> } />
+			<Route path={`${core}/search=:search&page=:page`} exact element={ <MainPage /> } />
+			<Route path={cart} exact element={ <CartPage /> } />
+			<Route path={admin} exact element={ <AdminPage /> } />
+			<Route path={`${detail}/:id`} exact element={ <DetailPage /> } />
+			<Route path={redactor} element={<Navigate to={admin} />} />
+			<Route path="*" element={<Navigate to={core} />} />
 		</Routes>
 	)
 }

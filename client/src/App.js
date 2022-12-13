@@ -1,32 +1,36 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { useRoutes } from './routes';
+import { getRoutes } from './routes';
 import { useAuth } from './hooks/useAuth';
 import { useCart } from './hooks/useCart';
-import { useProducts } from './hooks/useProducts';
-import { Context } from './context/Context';
-import { Navbar } from './components/Navbar';
+import { Context, UserCartContext } from './context/Context';
+import { Navbar } from './containers/Navbar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   const { login, logout, token, userId } = useAuth();
-  const { products, addProduct, removeProduct, deleteProduct, deleteAll, totalPrice, setAmount } = useCart();
-  const { category, search, handleCategory, handleSearch } = useProducts();
+  const { products, addProduct, removeProduct, deleteProduct, deleteAll } = useCart();
   const isAuthenticated = !!token;
-  const routes = useRoutes(isAuthenticated);
 
   return (
     <Context.Provider value={{
-      login, logout, token, userId, isAuthenticated, 
-      products, addProduct, removeProduct, deleteProduct,
-      deleteAll, totalPrice, setAmount, category, search,
-      handleCategory, handleSearch
+      login, logout, token, userId, isAuthenticated
     }}>
-      <BrowserRouter>
-        <Navbar isAuthenticated={isAuthenticated} />
-        <div className='main' >
-          { routes }
-        </div>
-      </BrowserRouter>
+      <UserCartContext.Provider value={{
+        products, addProduct, removeProduct, deleteProduct,
+        deleteAll
+      }}>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <Navbar isAuthenticated={isAuthenticated} />
+            <div className='main' >
+              { getRoutes(isAuthenticated) }
+            </div>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </UserCartContext.Provider>
     </Context.Provider>
   );
 }
