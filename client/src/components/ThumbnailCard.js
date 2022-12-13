@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Container, Box, 
 	Typography, CardActions, Button, Fade, Alert, FormControl, 
 	InputLabel, Select, MenuItem, Link } from '@mui/material';
-import { Context } from '../context/Context';
+import { UserCartContext } from '../context/Context';
+
+//TODO: сделать что-то на подобие lazy img
 
 export const ThumbnailCard = ({ product }) => {
-	const [alert, setAlert] = useState(false);
-	const context = useContext(Context);
+	const userCartContext = useContext(UserCartContext);
 	const navigate = useNavigate();
-	const { id, name, img, price, discountPrice, colors } = product;
+	let { id, name, img, price, discountPrice, colors } = product;
+	const [alert, setAlert] = useState(false);
 	const [image, setImage] = useState(img);
 	const [colorId, setColorId] = useState(Number(id));
 
@@ -21,10 +23,11 @@ export const ThumbnailCard = ({ product }) => {
 	const handleClickAddProduct = () => {
 		try {
 			if (colors && Object.keys(colors).length) {
+				id = colorId;
 				const { colorHex, colorName } = colors.filter(color => color.id === Number(colorId))[0];
-				context.addProduct(colorId, price, discountPrice, name, image, colorName, colorHex);
+				userCartContext.addProduct({id, price, discountPrice, name, image, colorName, colorHex});
 			} else {
-				context.addProduct(id, price, discountPrice, name, image);
+				userCartContext.addProduct({id, price, discountPrice, name, image});
 			}
 
 			handleOpen();

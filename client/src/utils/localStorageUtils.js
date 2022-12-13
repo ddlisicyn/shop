@@ -1,6 +1,12 @@
-function getDataFromLocalStorage(storageName, ) {
+function getDataFromLocalStorage(storageName) {
     try {
-        return JSON.parse(localStorage.getItem(storageName));
+        const data = JSON.parse(localStorage.getItem(storageName));
+        
+        if (typeof data === 'object' && data !== null) {
+            return data
+        }
+
+        return {}; //Если не проходит валидацию, то возвращает пустой объект
     } catch(e) {
         console.log(e.messsage);
     }

@@ -1,18 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Context } from '../context/Context';
+import React, { useContext, useMemo } from 'react';
+import { UserCartContext } from '../context/Context';
 import { CartProduct } from '../components/CartProduct';
 import { Grid, Container, Box, Typography } from '@mui/material';
 import { OrderForm } from './OrderForm';
 
 export const CartPage = () => {
-	const [cartProducts, setCartProducts] = useState({});
-	const [totalPrice, setTotalPrice] = useState(0);
-	const context = useContext(Context);
-
-	useEffect(() => {
-		setCartProducts(context.products);
-		setTotalPrice(context.totalPrice);
-	}, [context]);
+	const { products: cartProducts } = useContext(UserCartContext);
+	const totalPrice = useMemo(() => Object.values(cartProducts).map(item => item.discountPrice * item.amount)
+		.reduce((acc, item) => acc + item, 0), [cartProducts]);
 
 	return (
 		<Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >

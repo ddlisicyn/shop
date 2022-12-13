@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { CategoryAndSearchContext, Context } from '../context/Context';
+import { Context, UserCartContext } from '../context/Context';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -42,10 +42,10 @@ const drawerWidth = 260;
 
 const categories = [
 	{ name: 'all', value: 'Весь каталог', icon: <ImportContactsIcon /> },
-	{ name: 'Дом', value: 'Дом', icon: <HouseIcon /> },
-	{ name: 'Красота', value: 'Красота', icon: <AutoFixHighIcon />},
-	{ name: 'Здоровье', value: 'Здоровье', icon: <FavoriteBorderIcon /> },
-	{ name: 'Уход за телом', value: 'Уход за телом', icon: <CleanHandsIcon /> }
+	{ name: 'home', value: 'Дом', icon: <HouseIcon /> },
+	{ name: 'beauty', value: 'Красота', icon: <AutoFixHighIcon />},
+	{ name: 'health', value: 'Здоровье', icon: <FavoriteBorderIcon /> },
+	{ name: 'body-care', value: 'Уход за телом', icon: <CleanHandsIcon /> }
 ];
 
 const AppBar = styled(MuiAppBar, {
@@ -77,10 +77,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Navbar = ({ isAuthenticated }) => {
 	const theme = useTheme();
 	const navigate = useNavigate();
-	const сategoryAndSearchContext = useContext(CategoryAndSearchContext);
+	const { products: cartProducts } = useContext(UserCartContext);
 	const context = useContext(Context);
 	const [open, setOpen] = useState(false);
-	const [amountOfProductsInCart, setAmountOfProductsInCart] = useState(0);
+	const amountOfProductsInCart = Object.values(cartProducts).map(item => item.amount)
+		.reduce((acc, amount) => acc + amount, 0);
 
 	const handleDrawerOpen = () => setOpen(true);
 
@@ -91,26 +92,14 @@ export const Navbar = ({ isAuthenticated }) => {
 			top: 0,
 			behavior: 'smooth'
 		});
-		сategoryAndSearchContext.handleSearch('');
-		сategoryAndSearchContext.handleCategory('all');
 		navigate('/');
 	}
 
 	const logoutHandler = (event) => {
-		event.preventDefault()
-		context.logout()
-		navigate('/admin')
+		event.preventDefault();
+		context.logout();
+		navigate('/admin');
 	}
-
-	useEffect(() => {
-		let amount = 0;
-
-		for (let key in context.products) {
-			amount += +context.products[key].amount;
-		}
-
-		setAmountOfProductsInCart(amount);
-	}, [context.products]);
 
 	return (
 		<Box sx={{ display: 'flex', marginBottom: '20px' }}>
@@ -186,13 +175,11 @@ export const Navbar = ({ isAuthenticated }) => {
 						categories.map((category) => (
 							<ListItem disablePadding key={category.name + category.value}>
 								<ListItemButton onClick={() => {
-									сategoryAndSearchContext.handleSearch('');
-									сategoryAndSearchContext.handleCategory(category.name);		
 									window.scrollTo({
 										top: 0,
 										behavior: 'smooth'
 									});		
-									navigate('/');
+									navigate(`/${category.name}`);
 									handleDrawerClose();
 								}}>
 									<ListItemIcon>

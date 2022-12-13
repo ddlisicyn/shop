@@ -1,17 +1,16 @@
 import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../hooks/useHttp';
-import { CategoryAndSearchContext } from '../context/Context';
 import { Container, Box, List, Divider, ListItem, Paper, Popper, Typography } from '@mui/material/';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
+//TODO: сделать взаимодействие на react query
 
 export const SearchPanel = () => {
 	const wrapperRef = useRef(null);
 	const navigate = useNavigate();
-	const categoryAndSearchContext = useContext(CategoryAndSearchContext);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [allProducts, setAllProducts] = useState([]);
@@ -80,18 +79,15 @@ export const SearchPanel = () => {
 			event.preventDefault();
 			setValue('');
 			handleClose();
-			navigate('/');
-			categoryAndSearchContext.handleSearch(value);
-			categoryAndSearchContext.handleCategory('all');
+			//TODO: { pathname: `/search`, search: `?text=${value}` }
+			navigate(`/search=${value}`);
 		}
 	}
 
 	const handleClickSearchButton = () => {
 		setValue('');
 		handleClose();
-		navigate('/');
-		categoryAndSearchContext.handleSearch(value);
-		categoryAndSearchContext.handleCategory('all');
+		navigate(`/search=${value}`);
 	}
 
 	const handleClose = () => setOpen(false);

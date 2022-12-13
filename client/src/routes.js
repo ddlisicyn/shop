@@ -25,18 +25,17 @@ export const getRoutes = isAuthenticated => {
 
 	return (
 		<Routes>
-			<Route path={core} exact element={ <MainPage /> }>
-			</Route>
-			<Route path={cart} exact element={ <CartPage /> }>
-			</Route>
-			<Route path={admin} exact element={ <AdminPage /> }>
-			</Route>
-			<Route path={`${detail}/:id`} exact element={ <DetailPage /> }>
-			</Route>
-			<Route path={redactor} element={<Navigate to={admin} />}>
-			</Route>
-			<Route path="*" element={<Navigate to={core} />}>
-			</Route>
+			<Route path={core} exact element={ <MainPage /> } />
+			<Route path={`${core}/:category`} exact element={ <MainPage /> } />
+			<Route path={`${core}/:category&page=:page`} exact element={ <MainPage /> } />
+			<Route path={`${core}/search`} element={ <MainPage /> } />
+			<Route path={`${core}/search=:search`} exact element={ <MainPage /> } />
+			<Route path={`${core}/search=:search&page=:page`} exact element={ <MainPage /> } />
+			<Route path={cart} exact element={ <CartPage /> } />
+			<Route path={admin} exact element={ <AdminPage /> } />
+			<Route path={`${detail}/:id`} exact element={ <DetailPage /> } />
+			<Route path={redactor} element={<Navigate to={admin} />} />
+			<Route path="*" element={<Navigate to={core} />} />
 		</Routes>
 	)
 }

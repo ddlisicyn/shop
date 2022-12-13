@@ -1,31 +1,29 @@
 import React, { useState, useContext } from 'react';
-import { Context } from '../context/Context';
+import { UserCartContext } from '../context/Context';
 import { Container, Box, Typography, Tooltip, IconButton, ButtonGroup, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
 export const CartProduct = ({ cartProduct }) => {
-	const context = useContext(Context);
+	const userCartContext = useContext(UserCartContext);
 	const id = cartProduct[0];
 	const product = cartProduct[1];
 	const [amount, setAmount] = useState(cartProduct[1].amount);
 	const [show, setShow] = useState(true);
 
 	const handleRemove = () => {
-		let newStateOfAmount = amount - 1;
-		setAmount(newStateOfAmount);
-		context.removeProduct(id);
+		setAmount((currentAmount) => currentAmount - 1);
+		userCartContext.removeProduct({ id });
 	}
 
 	const handleAdd = () => {
-		let newStateOfAmount = amount + 1;
-		setAmount(newStateOfAmount);
-		context.addProduct(id);
+		setAmount((currentAmount) => currentAmount + 1);
+		userCartContext.addProduct({ id });
 	}
 
 	const handleDelete = () => {
-		context.deleteProduct(id);
+		userCartContext.deleteProduct({ id });
 		setShow(false);
 	}
 
@@ -34,7 +32,7 @@ export const CartProduct = ({ cartProduct }) => {
 			{ show && amount ? 
 				<Container className='cart-item' >
 					<Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }} >
-						<img src={product.img} style={{ width: '25%', maxWidth: '120px' }} alt='img'></img>
+						<img src={product.image} style={{ width: '25%', maxWidth: '120px' }} alt='img'></img>
 						<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 							<Typography variant="subtitle2" gutterBottom>
 								{product.name}

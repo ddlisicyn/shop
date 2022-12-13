@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../context/Context';
+import { UserCartContext } from '../context/Context';
 import { useHttp } from '../hooks/useHttp';
 import { formatPhoneNumber, formatSurnameAndName } from '../utils/orderFormUtils';
 import { Container, TextField, Button, Box, Modal, Fade, Alert }  from '@mui/material';
@@ -20,7 +20,10 @@ const style = {
 
 export const OrderForm = () => {
 	const envProcces = process.env.NODE_ENV;
-	const context = useContext(Context);
+	const userCartContext = useContext(UserCartContext);
+	const { products: cartProducts } = useContext(UserCartContext);
+	const totalPrice = useMemo(() => Object.values(cartProducts).map(item => item.discountPrice * item.amount)
+		.reduce((acc, item) => acc + item, 0), [cartProducts]);
 	const { loading, error, clearError, request } = useHttp();
 	const navigate = useNavigate();
   	const [open, setOpen] = useState(false);
@@ -39,7 +42,6 @@ export const OrderForm = () => {
 
 	const handleCloseSuccessModal = () => {
 		setOpenSuccessModal(false);
-		context.handleCategory('all');
 		navigate('/');
 	}
 
@@ -69,9 +71,9 @@ export const OrderForm = () => {
 			Комментарий к заказу: ${form.description ? form.description : 'Клиент не оставил комментарий'}${newLine}${newLine}
 			Заказ:${newLine}`;
 		try {
-			for (let key in context.products) {
+			for (let key in userCartContext.products) {
 				const id = key;
-				const { name, amount, discountPrice } = context.products[key];
+				const { name, amount, discountPrice } = userCartContext.products[key];
 
 				text += `• ${name.replace('&', '%26')}${newLine}
 					Артикул: ${id}${newLine}
@@ -80,10 +82,11 @@ export const OrderForm = () => {
 
 			}
 
-			text += `${newLine}Конечная стоимость: ${context.totalPrice}`;
+			//TODO: переделать перерасчет totalPrice
+			text += `${newLine}Конечная стоимость: ${totalPrice}`;
 
 			await request(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&parse_mode=html&text=${text}`, 'POST');
-			context.deleteAll();
+			userCartContext.deleteAll();
 			handleClose();
 			setOpenSuccessModal(true);
 		} catch (e) {
@@ -101,7 +104,7 @@ export const OrderForm = () => {
 			variant="contained" 
 			sx={{ width: '170px', marginTop: '20px' }} 
 			onClick={handleOpen}
-			disabled={!(context.products && !!Object.keys(context.products).length)}
+			disabled={!(userCartContext.products && !!Object.keys(userCartContext.products).length)}
 		>
 			Оформить заказ
 		</Button>
